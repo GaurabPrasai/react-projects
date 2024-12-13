@@ -50,7 +50,6 @@ const App = () => {
         <button type="submit">save</button>
       </form>
     </div>
-    
   );
 };
 
