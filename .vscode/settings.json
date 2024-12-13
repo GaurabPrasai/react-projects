@@ -1,5 +1,6 @@
 {
     "git.allowNoVerifyCommit": true,
     "git.autofetch": false,
-    "git.postCommitCommand": "none"
+    "git.postCommitCommand": "none",
+    "gitdoc.enabled": false
 }
