@@ -1,4 +1,5 @@
 import ReactDOM from "react-dom/client";
+
 // strictmode required
 import { StrictMode } from "react";
 
