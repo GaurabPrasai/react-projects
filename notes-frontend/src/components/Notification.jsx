@@ -9,3 +9,4 @@ const Notification = ({ message }) => {
       </div>
     )
   }
+  
