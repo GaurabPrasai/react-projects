@@ -1,32 +1,83 @@
-import { useState } from 'react'
+import { useState, useEffect } from "react";
+import * as pdfjsLib from "pdfjs-dist";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Configure the worker
+const pdfjsWorkerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorkerSrc;
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function PDFTextExtractor() {
+    const [text, setText] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            setLoading(true);
+            setError("");
+            
+            const pdfData = new Uint8Array(await file.arrayBuffer());
+            const pdfDoc = await pdfjsLib.getDocument({ data: pdfData }).promise;
+            let extractedText = "";
+
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items
+                    .map(item => item.str)
+                    .join(" ");
+                extractedText += `Page ${i}:\n${pageText}\n\n`;
+            }
+
+            setText(extractedText);
+        } catch (err) {
+            console.error("PDF processing error:", err);
+            setError("Failed to process PDF. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="p-4">
+            <div className="mb-4">
+                <input
+                    type="file"
+                    accept="application/pdf"
+                    onChange={handleFileUpload}
+                    className="mb-2 block w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-md file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-700
+                        hover:file:bg-blue-100"
+                />
+            </div>
+            
+            {loading && (
+                <div className="mb-4 text-blue-600">
+                    Processing PDF...
+                </div>
+            )}
+            
+            {error && (
+                <div className="mb-4 text-red-600">
+                    {error}
+                </div>
+            )}
+            
+            {text && (
+                <textarea
+                    value={text}
+                    readOnly
+                    className="w-full h-96 p-2 border rounded-md"
+                    placeholder="Extracted text will appear here..."
+                />
+            )}
+        </div>
+    );
 }
 
-export default App
+export default PDFTextExtractor;
