@@ -1,7 +1,8 @@
 # PDF Text Extractor Documentation
 
 ## Overview
-The PDF Text Extractor is a React-based web application for extracting text from PDF documents directly in the browser. Built with Vite, React, and PDF.js, it ensures fast and efficient client-side processing.
+The PDF Text Extractor is a React-based web application for extracting text from PDF documents directly in the browser. Built with Vite, React, and PDF.js, it ensures fast and efficient client-side processing.Deployed and accessible at: https://pdfparsing.vercel.app/
+
 
 ## Features
 - Drag-and-drop or click-to-upload PDF files.
@@ -43,6 +44,14 @@ The PDF Text Extractor is a React-based web application for extracting text from
    ```bash
    npm run dev
    ```
+For Vercel Deployment
+If you want to deploy the app on Vercel:
+
+Sign in to Vercel.
+Create a new project and link your GitHub repository.
+Set up environment variables (if needed).
+Deploy the project.
+Once deployed, you can access your app at the provided Vercel URL.
 
 ## Usage
 1. Open the application in your browser.
