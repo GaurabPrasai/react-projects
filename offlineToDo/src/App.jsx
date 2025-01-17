@@ -33,6 +33,8 @@ const TodoApp = () => {
     setNewTodo('');
   };
 
+  const handleNoteChange = (e) => setNewTodo(e.target.value)
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-4 md:p-6 lg:p-8">
       <div className="mx-auto max-w-xl">
@@ -50,7 +52,7 @@ const TodoApp = () => {
             <div className="flex gap-3">
               <Input
                 value={newTodo}
-                onChange = {(e) => setNewTodo(e.target.value)}
+                onChange = {handleNoteChange}
                 placeholder="What needs to be done?"
                 className="flex-1 focus-visible:ring-1 focus-visible:ring-indigo-600 focus-visible:ring-offset-0"
               />
@@ -64,11 +66,13 @@ const TodoApp = () => {
           </form>
 
           <div className="h-64 overflow-y-auto pr-2">
-            {/* Single todo item */}
-            <div className="group flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-all duration-200 hover:border-indigo-200 hover:shadow-md">
+
+            {todos.map(todo => (
+            <div key={todo.id} className="group flex items-center justify-between rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-all duration-200 hover:border-indigo-200 hover:shadow-md">
+              
               <div className="flex items-center gap-3">
                 <Checkbox
-                  checked={isChecked}
+                  checked={todo.completed}
                   onCheckedChange={() => setIsChecked(!isChecked)}
                   className="h-4 w-4 border-2 transition-colors duration-200 data-[state=checked]:border-indigo-600 data-[state=checked]:bg-indigo-600"
                 />
@@ -77,10 +81,17 @@ const TodoApp = () => {
                     isChecked ? "text-gray-400 line-through" : ""
                   }`}
                 >
-                  Complete project documentation
+                  {todo.text}
                 </p>
               </div>
+              <button
+                  onClick={() => deleteTodo(todo.id)}
+                  className="invisible rounded-full text-gray-400 transition-all duration-200 hover:text-gray-600 group-hover:visible"
+                >
+                  ×
+                </button>
             </div>
+            ))}
           </div>
         </div>
       </div>
