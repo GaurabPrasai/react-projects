@@ -60,7 +60,7 @@ const TodoApp = () => {
                 onChange={handleTodoChange}
                 placeholder="What needs to be done?"
                 className="flex-1 border-gray-200 bg-white transition-colors focus-visible:ring-0 focus-visible:border-gray-300"
-                style={{ outline: 'none', boxShadow: 'none' }}
+                style={{ outline: "none", boxShadow: "none" }}
               />
               <Button
                 type="submit"
@@ -106,7 +106,9 @@ const TodoApp = () => {
             {todos.length === 0 && (
               <div className="py-8 text-center text-gray-500">
                 <p className="text-sm">Your todo list is empty</p>
-                <p className="text-xs text-gray-400">Add a task to get started</p>
+                <p className="text-xs text-gray-400">
+                  Add a task to get started
+                </p>
               </div>
             )}
           </div>
