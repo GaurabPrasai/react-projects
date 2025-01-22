@@ -49,7 +49,7 @@ const TypingTest = () => {
           >
             <div className="text-xl leading-relaxed relative">
               {SAMPLE_TEXT.split('').map((char, index) => (
-                <span key={index} className="text-gray-300">
+                <span key={index} className="text-gray-400">
                   {char}
                 </span>
               ))}
