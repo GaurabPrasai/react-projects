@@ -68,19 +68,21 @@ const App = () => {
 
                 return (
                   <>
-                    {index === typed.length && (
-                      <span className="animate-blink w-0.5 h-full transition-opacity duration-500">
-                        |
-                      </span>
-                    )}
+                    <span key={typed[index]} className="relative">
+                      {index === typed.length && (
+                        <span className="absolute -left-0.5 w-0.5 h-full animate-blink">
+                          |
+                        </span>
+                      )}
+                    </span>
                     <span
                       key={index}
-                      className={`cursor-vertical-text ${
+                      className={`cursor-text ${
                         isTyped
                           ? isCorrect
                             ? "text-black"
                             : "text-red-500 bg-red-100"
-                          : "text-gray-300"
+                          : "text-gray-400"
                       }`}
                     >
                       {char}
