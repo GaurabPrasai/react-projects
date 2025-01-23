@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Pause, Play, RotateCcw } from "lucide-react";
 
@@ -7,6 +7,7 @@ const SAMPLE_TEXT = `The evening sun cast long shadows across the streets of Par
 const App = () => {
   const [typed, setTyped] = useState("");
   const [isFinished, setIsFinished] = useState(false);
+  const [isWrong, setIsWrong] = useState(false);
 
   const handleTyping = (e) => {
     if (isFinished) return;
@@ -64,11 +65,18 @@ const App = () => {
             <div className="text-xl leading-relaxed relative">
               {SAMPLE_TEXT.split("").map((char, index) => {
                 const isTyped = index < typed.length;
+                const isCorrect = typed[index] === char;
 
                 return (
                   <span
                     key={index}
-                    className={`${isTyped ? "text-black" : "text-gray-300"}`}
+                    className={`${
+                      isTyped
+                        ? isCorrect
+                          ? "text-black"
+                          : "text-red-500 bg-red-100"
+                        : "text-gray-300"
+                    }`}
                   >
                     {char}
                   </span>
