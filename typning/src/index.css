@@ -66,3 +66,15 @@
   }
 }
 
+.char {
+  position: relative;
+}
+
+.cursor {
+  position: absolute;
+  height: 1.2em;
+  width: 2px;
+  background-color: blue;
+  transition: transform 0.2s ease;
+}
+
