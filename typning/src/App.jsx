@@ -7,7 +7,6 @@ const SAMPLE_TEXT = `The evening sun cast long shadows across the streets of Par
 const App = () => {
   const [typed, setTyped] = useState("");
   const [isFinished, setIsFinished] = useState(false);
-  const [isWrong, setIsWrong] = useState(false);
 
   const handleTyping = (e) => {
     if (isFinished) return;
@@ -68,18 +67,25 @@ const App = () => {
                 const isCorrect = typed[index] === char;
 
                 return (
-                  <span
-                    key={index}
-                    className={`${
-                      isTyped
-                        ? isCorrect
-                          ? "text-black"
-                          : "text-red-500 bg-red-100"
-                        : "text-gray-300"
-                    }`}
-                  >
-                    {char}
-                  </span>
+                  <>
+                    {index === typed.length && (
+                      <span className="animate-blink w-0.5 h-full transition-opacity duration-500">
+                        |
+                      </span>
+                    )}
+                    <span
+                      key={index}
+                      className={`cursor-vertical-text ${
+                        isTyped
+                          ? isCorrect
+                            ? "text-black"
+                            : "text-red-500 bg-red-100"
+                          : "text-gray-300"
+                      }`}
+                    >
+                      {char}
+                    </span>
+                  </>
                 );
               })}
             </div>

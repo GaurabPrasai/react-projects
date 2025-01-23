@@ -7,6 +7,15 @@ export default {
   ],
   theme: {
   	extend: {
+		keyframes: {
+			blink: {
+			  '0%, 100%': { opacity: '1' },
+			  '50%': { opacity: '0.3' }  // Smoother transition
+			}
+		},
+		animation: {
+			blink: 'blink 1s ease-in-out infinite'
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
