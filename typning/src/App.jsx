@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Pause, Play, RotateCcw } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
 
 const SAMPLE_TEXT = `The evening sun cast long shadows across the streets of Paris, as Monsieur Valjean walked quietly through the gathering dusk. His thoughts were heavy with the weight of his past, and the path ahead seemed uncertain in the fading light. The cobblestones echoed with each careful step, a reminder of his journey's beginning. Years of hardship had taught him to move with caution, to blend into the shadows that now stretched like long fingers across the ancient city walls. The sound of distant bells rang through the evening air, calling the faithful to vespers. Valjean paused, letting the familiar melody wash over him. Each toll seemed to speak of redemption, of the promise he had made so many years ago in the bishop's house. The silver candlesticks, now safely hidden away, were a constant reminder of that transformative moment. As he continued his way through the narrow streets, the scent of fresh bread wafted from a nearby bakery. It reminded him of simpler times, of the nineteen years spent in Toulon, where such simple pleasures were nothing more than distant dreams.`;
 
@@ -68,7 +69,7 @@ const App = () => {
 
                 return (
                   <>
-                    <span key={typed[index]} className="relative">
+                    <span key={uuidv4()} className="relative">
                       {index === typed.length && (
                         <span className="absolute -left-0.5 w-0.5 h-full animate-blink">
                           |
