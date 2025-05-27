@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Header from "./components/ui/Header"
+import Sidebar from "./components/ui/Sidebar"
 import './App.css'
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
   return (
     <>
       <Header />
+      <Sidebar />
     </>
   )
 }
