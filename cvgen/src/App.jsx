@@ -5,7 +5,8 @@ import Links from "./components/ui/Links";
 import Education from "./components/ui/Education";
 import Experience from "./components/ui/Experience";
 import Skills from "./components/ui/Skills";
-import Certifications from "./components/Certifications";
+import Certifications from "./components/ui/Certifications";
+import Preview from "./components/ui/Preview";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import "./App.css";
@@ -54,6 +55,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/certifications",
         element: <Certifications />
+      },
+      {
+        path: "/preview",
+        element: <Preview />
       },
     ]
   },

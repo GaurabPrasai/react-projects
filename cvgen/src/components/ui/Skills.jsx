@@ -52,9 +52,7 @@ const Skills = () => {
       {/* Soft Skills Section */}
       <div className="mb-8">
         <div className="flex items-center mb-6">
-          <h3 className="text-lg font-medium text-gray-800">
-            Soft Skills
-          </h3>
+          <h3 className="text-lg font-medium text-gray-800">Soft Skills</h3>
         </div>
 
         {/* Communication & Leadership */}
@@ -88,9 +86,7 @@ const Skills = () => {
       {/* Languages Section */}
       <div>
         <div className="flex items-center mb-6">
-          <h3 className="text-lg font-medium text-gray-800">
-            Languages
-          </h3>
+          <h3 className="text-lg font-medium text-gray-800">Languages</h3>
         </div>
 
         <div className="mb-6">
