@@ -4,9 +4,10 @@ import Profile from "./components/ui/Profile";
 import Links from "./components/ui/Links";
 import Education from "./components/ui/Education";
 import Experience from "./components/ui/Experience";
+import Skills from "./components/ui/Skills";
+
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import "./App.css";
-import Skills from "./components/ui/Skills";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/",
+        path: "/profile",
         element: <Profile />,
       },
       {

@@ -16,11 +16,12 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "./button";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const [sections, setSections] = useState([
     { id: 1, name: "Profile", icon: User, isDefault: true, isActive: true },
-    { id: 2, name: "Contact", icon: Phone, isDefault: true, isActive: false },
+    { id: 2, name: "Links", icon: Globe, isDefault: true, isActive: false },
     {
       id: 3,
       name: "Education",
@@ -63,7 +64,7 @@ const Sidebar = () => {
           {sections.map((section) => {
             const IconComponent = section.icon;
             return (
-              <div
+              <Link to={section.name}><div
                 key={section.id}
                 className={`group flex items-center justify-between p-3 rounded-lg border transition-all duration-200 cursor-pointer hover:border-primary/50 hover:bg-accent/50 ${
                   section.isActive
@@ -108,7 +109,7 @@ const Sidebar = () => {
                     }`}
                   />
                 </div>
-              </div>
+              </div></Link>
             );
           })}
         </div>
