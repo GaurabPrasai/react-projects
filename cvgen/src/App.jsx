@@ -1,17 +1,52 @@
-import { useState } from 'react'
-import Header from "./components/ui/Header"
-import Sidebar from "./components/ui/Sidebar"
-import './App.css'
+import Header from "./components/ui/Header";
+import Sidebar from "./components/ui/Sidebar";
+import Profile from "./components/ui/Profile";
+import Links from "./components/ui/Links";
+import Education from "./components/ui/Education";
+import Experience from "./components/ui/Experience";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import "./App.css";
+import Skills from "./components/ui/Skills";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
+    <div className="app-container">
       <Header />
-      <Sidebar />
-    </>
-  )
+      <div className="main-content">
+        <Sidebar />
+        <Outlet />
+      </div>
+    </div>
+  );
 }
 
-export default App
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Profile />,
+      },
+      {
+        path: "/links",
+        element: <Links />
+      },
+      {
+        path: "/education",
+        element: <Education />
+      },
+      {
+        path: "/experience",
+        element: <Experience />
+      },
+      {
+        path: "/skills",
+        element: <Skills />
+      },
+    ]
+  },
+]);
+
+export default appRouter;
