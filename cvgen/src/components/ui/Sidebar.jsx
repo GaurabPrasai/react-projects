@@ -64,8 +64,7 @@ const Sidebar = () => {
           {sections.map((section) => {
             const IconComponent = section.icon;
             return (
-              <Link to={section.name}><div
-                key={section.id}
+              <Link to={section.name} key={section.id}><div
                 className={`group flex items-center justify-between p-3 rounded-lg border transition-all duration-200 cursor-pointer hover:border-primary/50 hover:bg-accent/50 ${
                   section.isActive
                     ? "border-primary bg-primary/5 shadow-sm"
