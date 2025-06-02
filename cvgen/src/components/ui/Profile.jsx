@@ -1,4 +1,21 @@
-const Profile = () => {
+import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
+
+function Profile() {
+  const { profileData, setProfileData } = useOutletContext() || {
+    profileData: { name: "", email: "" },
+    setProfileData: () => {},
+  };
+
+  const handleInputChange = (field) => (e) => {
+    const value = e.target.value;
+    const updateData = {
+      ...profileData,
+      [field]: value
+    };
+    setProfileData(updateData);
+  };
+
   return (
     <div className="p-10">
       {/* First Row: Full Name and Profession */}
@@ -8,6 +25,8 @@ const Profile = () => {
             FULL NAME
           </label>
           <input
+            value={profileData.name || ""}
+            onChange={handleInputChange('name')}
             type="text"
             name="fullName"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -32,6 +51,8 @@ const Profile = () => {
             EMAIL ADDRESS
           </label>
           <input
+            value={profileData.email || ""}
+            onChange={handleInputChange('email')}
             type="email"
             name="email"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

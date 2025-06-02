@@ -10,14 +10,17 @@ import Preview from "./components/ui/Preview";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [profileData, setProfileData] = useState({ name: "", email: "" });
+
   return (
     <div className="app-container">
       <Header />
       <div className="main-content">
         <Sidebar />
-        <Outlet />
+        <Outlet context={{ profileData, setProfileData }} />
       </div>
     </div>
   );
@@ -38,29 +41,29 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/links",
-        element: <Links />
+        element: <Links />,
       },
       {
         path: "/education",
-        element: <Education />
+        element: <Education />,
       },
       {
         path: "/experience",
-        element: <Experience />
+        element: <Experience />,
       },
       {
         path: "/skills",
-        element: <Skills />
+        element: <Skills />,
       },
       {
         path: "/certifications",
-        element: <Certifications />
+        element: <Certifications />,
       },
       {
         path: "/preview",
-        element: <Preview />
+        element: <Preview />,
       },
-    ]
+    ],
   },
 ]);
 
