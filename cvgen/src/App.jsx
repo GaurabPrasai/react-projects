@@ -14,6 +14,7 @@ import "./App.css";
 
 function App() {
   const [profileData, setProfileData] = useState({ name: "", email: "" });
+  const [eduData, setEduData] = useState([]);
 
   return (
     <div className="app-container">

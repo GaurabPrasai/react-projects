@@ -1,7 +1,17 @@
 import { Button } from "./button";
 import { Plus } from "lucide-react";
 
-const Education = () => {
+const Education = (eduData, setEduData) => {
+
+  const handleInputChange = (field) => (e) => {
+    const value = e.target.value;
+    const updateData = {
+      ...profileData,
+      [field]: value
+    };
+    setEduData(updateData);
+  };
+
   return (
     <div className="p-10">
       {/* First Education Entry */}
@@ -21,7 +31,10 @@ const Education = () => {
               COLLEGE NAME
             </label>
             <input
+              value={eduData.university}
+              onChange={handleInputChange('university')}
               type="text"
+              name="university"
               placeholder="Harvard University"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
