@@ -1,11 +1,7 @@
-import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 function Profile() {
-  const { profileData, setProfileData } = useOutletContext() || {
-    profileData: { name: "", email: "" },
-    setProfileData: () => {},
-  };
+  const { profileData, setProfileData } = useOutletContext()
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;

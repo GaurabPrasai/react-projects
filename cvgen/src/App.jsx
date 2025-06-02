@@ -7,10 +7,10 @@ import Experience from "./components/ui/Experience";
 import Skills from "./components/ui/Skills";
 import Certifications from "./components/ui/Certifications";
 import Preview from "./components/ui/Preview";
-
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import "./App.css";
+import { createBrowserRouter, Outlet } from "react-router-dom";
 import { useState } from "react";
+import "./App.css";
+
 
 function App() {
   const [profileData, setProfileData] = useState({ name: "", email: "" });

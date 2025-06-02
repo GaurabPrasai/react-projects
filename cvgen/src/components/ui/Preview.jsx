@@ -1,9 +1,7 @@
 import { useOutletContext } from "react-router-dom";
 
 const Preview = () => {
-  const { profileData } = useOutletContext() || {
-    profileData: { name: "", email: "" },
-  };
+  const { profileData } = useOutletContext()
 
   return (
     <div className="h-screen items-center justify-center">
