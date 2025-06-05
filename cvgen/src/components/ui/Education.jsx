@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import { Button } from "./button";
 import { Plus } from "lucide-react";
+import cvContext from "../../context/cvcontext";
 
-const Education = (eduData, setEduData) => {
+const Education = () => {
+
+  const {eduData, setEduData} = useContext(cvContext);
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
     const updateData = {
-      ...profileData,
+      ...eduData,
       [field]: value
     };
     setEduData(updateData);
@@ -31,7 +35,7 @@ const Education = (eduData, setEduData) => {
               COLLEGE NAME
             </label>
             <input
-              value={eduData.university}
+              value={eduData.university || ""}
               onChange={handleInputChange('university')}
               type="text"
               name="university"
@@ -44,7 +48,10 @@ const Education = (eduData, setEduData) => {
               DEGREE NAME
             </label>
             <input
+              value={eduData.degree || ""}
+              onChange={handleInputChange('degree')}
               type="text"
+              name="degree"
               placeholder="Master of Computer Science"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -58,6 +65,8 @@ const Education = (eduData, setEduData) => {
               START DATE
             </label>
             <input
+              value={eduData.month || ""}
+              onChange={handleInputChange('month')}
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -67,6 +76,8 @@ const Education = (eduData, setEduData) => {
               END DATE
             </label>
             <input
+              value={eduData.enddate || ""}
+              onChange={handleInputChange('enddate')}
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -79,6 +90,9 @@ const Education = (eduData, setEduData) => {
             LOCATION
           </label>
           <input
+            value={eduData.location || ""}
+            onChange={handleInputChange('location')}
+            name="location"
             type="text"
             placeholder="Cambridge, MA, USA"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

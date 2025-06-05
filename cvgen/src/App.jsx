@@ -9,6 +9,7 @@ import Certifications from "./components/ui/Certifications";
 import Preview from "./components/ui/Preview";
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { useState } from "react";
+import cvContext from "./context/cvcontext";
 import "./App.css";
 
 
@@ -17,13 +18,16 @@ function App() {
   const [eduData, setEduData] = useState([]);
 
   return (
-    <div className="app-container">
-      <Header />
-      <div className="main-content">
-        <Sidebar />
-        <Outlet context={{ profileData, setProfileData }} />
-      </div>
-    </div>
+    <cvContext.Provider value={{profileData, setProfileData, eduData, setEduData}}>
+      <div className="app-container">
+        <Header />
+        <div className="main-content">
+          <Sidebar />
+          <Outlet />
+        </div>
+      </div>      
+    </cvContext.Provider>
+
   );
 }
 

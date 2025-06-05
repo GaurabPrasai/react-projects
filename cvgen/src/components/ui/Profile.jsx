@@ -1,7 +1,8 @@
-import { useOutletContext } from "react-router-dom";
+import { useContext } from "react";
+import cvContext from "../../context/cvcontext";
 
 function Profile() {
-  const { profileData, setProfileData } = useOutletContext()
+  const { profileData, setProfileData } = useContext(cvContext);
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
@@ -33,6 +34,8 @@ function Profile() {
             PROFESSION
           </label>
           <input
+            value={profileData.profession || ""}
+            onChange={handleInputChange('profession')}
             type="text"
             name="profession"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -59,6 +62,8 @@ function Profile() {
             PHONE NUMBER
           </label>
           <input
+            value={profileData.phone || ""}
+            onChange={handleInputChange('phone')}
             type="tel"
             name="phone"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -72,6 +77,8 @@ function Profile() {
           ADDRESS
         </label>
         <input
+          value={profileData.address || ""}
+          onChange={handleInputChange('address')}        
           type="address"
           name="address"
           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -84,6 +91,8 @@ function Profile() {
           PROFESSIONAL SUMMARY
         </label>
         <textarea
+          value={profileData.summary || ""}
+          onChange={handleInputChange('summary')}
           name="summary"
           rows={5}
           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
