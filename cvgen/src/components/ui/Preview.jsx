@@ -4,7 +4,7 @@ import { Download, Printer } from "lucide-react";
 import cvContext from "../../context/cvcontext";
 
 const Preview = () => {
-  const { profileData, eduData } = useContext(cvContext);
+  const { profileData, eduData, links, experience } = useContext(cvContext);
 
   const handlePrint = () => {
     window.print();
@@ -20,7 +20,9 @@ const Preview = () => {
       {/* Header Controls */}
       <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Resume Preview</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Resume Preview
+          </h1>
           <p className="text-gray-600">Review your resume before downloading</p>
         </div>
         <div className="flex gap-3">
@@ -44,190 +46,431 @@ const Preview = () => {
 
       {/* CV Preview Container */}
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="cv-content p-12" style={{ fontFamily: 'Georgia, serif' }}>
+        <div
+          className="cv-content p-16"
+          style={{
+            fontFamily: 'Times, "Times New Roman", serif',
+            fontSize: "11pt",
+            lineHeight: "1.4",
+            color: "#000",
+          }}
+        >
           {/* Header Section */}
-          <div className="text-center mb-8 border-b-2 border-gray-200 pb-6">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              {profileData.name || "Your Name"}
+          <div className="text-center mb-4">
+            <h1
+              style={{
+                fontSize: "20pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                letterSpacing: "0.5px",
+              }}
+            >
+              {profileData.name || "John Doe"}
             </h1>
-            <div className="flex justify-center items-center gap-6 text-sm text-gray-600 flex-wrap">
-              {profileData.email && (
-                <span className="flex items-center gap-1">
-                  📧 {profileData.email}
-                </span>
-              )}
-              {profileData.phone && (
-                <span className="flex items-center gap-1">
-                  📞 {profileData.phone}
-                </span>
-              )}
-              {profileData.address && (
-                <span className="flex items-center gap-1">
-                  📍 {profileData.address}
-                </span>
-              )}
+
+            {/* Contact Info - Single Line */}
+            <div
+              style={{
+                fontSize: "10pt",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "20px",
+                flexWrap: "wrap",
+                marginBottom: "4px",
+              }}
+            >
+              <span>📧 {profileData.email || "johndoe@protonmail.com"}</span>
+              <span>🌐 {links.website_text || "johndoe.com"}</span>
+              <span>💼 {links.linkedin_text || "john-doe-123"}</span>
+              <span>🐙 {links.github_text || "johndoe"}</span>
             </div>
           </div>
 
-          {/* Professional Summary */}
-          {profileData.summary && (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-3 border-b border-gray-300 pb-1">
-                PROFESSIONAL SUMMARY
-              </h2>
-              <p className="text-gray-700 leading-relaxed text-justify">
-                {profileData.summary}
-              </p>
-            </div>
-          )}
+          {/* Horizontal Line */}
+          <hr
+            style={{
+              border: "none",
+              borderTop: "1px solid #000",
+              margin: "16px 0",
+            }}
+          />
 
           {/* Technical Skills */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
+          <div style={{ marginBottom: "16px" }}>
+            <h2
+              style={{
+                fontSize: "12pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
               TECHNICAL SKILLS
             </h2>
-            <div className="space-y-3">
-              <div>
-                <span className="font-semibold text-gray-800">Languages: </span>
-                <span className="text-gray-700">JavaScript, Go, HTML, CSS</span>
+
+            <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
+              <div style={{ marginBottom: "2px" }}>
+                <strong>Languages:</strong> JavaScript, Go, HTML, CSS
               </div>
-              <div>
-                <span className="font-semibold text-gray-800">Frameworks, Libraries & Databases: </span>
-                <span className="text-gray-700">React, Redux, NestJS, PostgreSQL, CockroachDB</span>
+              <div style={{ marginBottom: "2px" }}>
+                <strong>Frameworks, Libraries & Databases:</strong> React,
+                Redux, NestJS, PostgreSQL, CockroachDB
               </div>
-              <div>
-                <span className="font-semibold text-gray-800">Tools & Other Technologies: </span>
-                <span className="text-gray-700">Git, SVN, AWS, Postman</span>
+              <div style={{ marginBottom: "2px" }}>
+                <strong>Tools & Other Technologies:</strong> Git, SVN, AWS,
+                Postman
               </div>
             </div>
           </div>
 
-          {/* Projects */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
+          {/* Projects Section */}
+          <div style={{ marginBottom: "16px" }}>
+            <h2
+              style={{
+                fontSize: "12pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
               PROJECTS
             </h2>
-            
+
             {/* Project 1 */}
-            <div className="mb-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-gray-900">TravelPlanner</h3>
-                <span className="text-gray-600 text-sm">HTML, CSS, React, TypeScript, Redux, Bootstrap, Express.js, PostgreSQL</span>
+            <div style={{ marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: "4px",
+                }}
+              >
+                <strong style={{ fontSize: "11pt" }}>TravelPlanner</strong>
+                <span
+                  style={{
+                    fontSize: "10pt",
+                    fontStyle: "italic",
+                    color: "#333",
+                  }}
+                >
+                  HTML, CSS, React, TypeScript, Redux, Bootstrap, Express.js,
+                  PostgreSQL
+                </span>
               </div>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
-                <li>Developed a user-friendly web application for travel planning, allowing users to create and manage their itineraries.</li>
-                <li>Utilized Redux for state management, enabling efficient data flow and improved application performance.</li>
-                <li>Designed RESTful APIs using Node.js and Express.js, facilitating data retrieval and storage from the PostgreSQL database.</li>
-                <li>Implemented JWT-based authentication to ensure secure user registration and login processes.</li>
+
+              <ul
+                style={{
+                  marginLeft: "16px",
+                  marginBottom: "6px",
+                  fontSize: "11pt",
+                }}
+              >
+                <li style={{ marginBottom: "1px" }}>
+                  Developed a user-friendly web application for travel planning,
+                  allowing users to create and manage their itineraries.
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Utilized Redux for state management, enabling efficient data
+                  flow and improved application performance.
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Designed RESTful APIs using Node.js and Express.js,
+                  facilitating data retrieval and storage from the PostgreSQL
+                  database.
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Implemented JWT-based authentication to ensure secure user
+                  registration and login processes.
+                </li>
               </ul>
-              <div className="mt-2 text-sm">
-                <span className="font-semibold">Code: </span>
-                <a href="#" className="text-blue-600 underline">Github Repo</a>
-                <span className="mx-2">|</span>
-                <span className="font-semibold">Demo: </span>
-                <a href="#" className="text-blue-600 underline">Live Preview</a>
+
+              <div style={{ fontSize: "10pt", marginLeft: "0px" }}>
+                <strong>Code:</strong>{" "}
+                <a
+                  href="#"
+                  style={{ color: "#0066cc", textDecoration: "underline" }}
+                >
+                  Github Repo
+                </a>
+                <span style={{ margin: "0 8px" }}>Demo:</span>
+                <a
+                  href="#"
+                  style={{ color: "#0066cc", textDecoration: "underline" }}
+                >
+                  Live Preview
+                </a>
               </div>
             </div>
 
             {/* Project 2 */}
-            <div className="mb-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-gray-900">Project No. 2</h3>
-                <span className="text-gray-600 text-sm">Example Tech Stack</span>
+            <div style={{ marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: "4px",
+                }}
+              >
+                <strong style={{ fontSize: "11pt" }}>Project No. 2</strong>
+                <span
+                  style={{
+                    fontSize: "10pt",
+                    fontStyle: "italic",
+                    color: "#333",
+                  }}
+                >
+                  Example Tech Stack
+                </span>
               </div>
-              <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4">
-                <li>Bullet point #1.</li>
-                <li>Bullet point #2.</li>
-                <li>Bullet point #3.</li>
-                <li>Bullet point #4.</li>
+
+              <ul
+                style={{
+                  marginLeft: "16px",
+                  marginBottom: "6px",
+                  fontSize: "11pt",
+                }}
+              >
+                <li style={{ marginBottom: "1px" }}>Bullet point #1.</li>
+                <li style={{ marginBottom: "1px" }}>Bullet point #2.</li>
+                <li style={{ marginBottom: "1px" }}>Bullet point #3.</li>
+                <li style={{ marginBottom: "1px" }}>Bullet point #4.</li>
               </ul>
-              <div className="mt-2 text-sm">
-                <span className="font-semibold">Code: </span>
-                <a href="#" className="text-blue-600 underline">Codeberg Repo</a>
-                <span className="mx-2">|</span>
-                <span className="font-semibold">Demo: </span>
-                <a href="#" className="text-blue-600 underline">Live Preview</a>
+
+              <div style={{ fontSize: "10pt", marginLeft: "0px" }}>
+                <strong>Code:</strong>{" "}
+                <a
+                  href="#"
+                  style={{ color: "#0066cc", textDecoration: "underline" }}
+                >
+                  Codeberg Repo
+                </a>
+                <span style={{ margin: "0 8px" }}>Demo:</span>
+                <a
+                  href="#"
+                  style={{ color: "#0066cc", textDecoration: "underline" }}
+                >
+                  Live Preview
+                </a>
               </div>
             </div>
           </div>
 
           {/* Certificates, Skills & Interests */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
+          <div style={{ marginBottom: "16px" }}>
+            <h2
+              style={{
+                fontSize: "12pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
               CERTIFICATES, SKILLS & INTERESTS
             </h2>
-            <div className="space-y-2">
-              <div>
-                <span className="font-semibold text-gray-800">Certificates: </span>
-                <span className="text-gray-700">cs50x00</span>
+
+            <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
+              <div style={{ marginBottom: "2px" }}>
+                <strong>Certificates:</strong> cs50x00
               </div>
-              <div>
-                <span className="font-semibold text-gray-800">Skills: </span>
-                <span className="text-gray-700">Strategic Planning, Problem Solving, Leadership, Teamwork, etc</span>
+              <div style={{ marginBottom: "2px" }}>
+                <strong>Skills:</strong> Strategic Planning, Problem Solving,
+                Leadership, Teamwork, etc
               </div>
-              <div>
-                <span className="font-semibold text-gray-800">Interests: </span>
-                <span className="text-gray-700">Reading, sleeping, yoga, fishing, traveling, Reddit, Bear, Football</span>
+              <div style={{ marginBottom: "2px" }}>
+                <strong>Interests:</strong> Reading, sleeping, yoga, fishing,
+                traveling, Reddit, Bear, Football
               </div>
             </div>
           </div>
 
-          {/* Education */}
-          {(eduData.university || eduData.degree) && (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4 border-b border-gray-300 pb-1">
-                EDUCATION
-              </h2>
-              <div className="mb-4">
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-bold text-gray-900">
-                    {eduData.university || "University Name"}
-                  </h3>
-                  <span className="text-gray-600 text-sm">
-                    {eduData.month && new Date(eduData.month).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'long' 
-                    })}
-                    {eduData.month && eduData.enddate && " - "}
-                    {eduData.enddate && new Date(eduData.enddate).toLocaleDateString('en-US', { 
-                      year: 'numeric', 
-                      month: 'long' 
-                    })}
-                  </span>
-                </div>
-                <div className="text-gray-700">
-                  <span className="italic">{eduData.degree || "Degree Name"}</span>
-                  {eduData.location && (
-                    <span className="ml-4 text-gray-600">{eduData.location}</span>
-                  )}
-                </div>
-                {/* Sample education details */}
-                <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4 mt-2">
-                  <li>Developed a user-friendly web application for travel planning, allowing users to create and manage their itineraries.</li>
-                  <li>Utilized Redux for state management, enabling efficient data flow and improved application performance.</li>
-                  <li>Designed RESTful APIs using Node.js and Express.js, facilitating data retrieval and storage from the PostgreSQL database.</li>
-                  <li>Implemented JWT-based authentication to ensure secure user registration and login processes.</li>
-                </ul>
+          {/* Education Section */}
+          <div style={{ marginBottom: "16px" }}>
+            <h2
+              style={{
+                fontSize: "12pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              EDUCATION
+            </h2>
+
+            {/* Education 1 */}
+            <div style={{ marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: "2px",
+                }}
+              >
+                <strong style={{ fontSize: "11pt" }}>
+                  {eduData.university || "Pistachio Institute of Technology"}
+                </strong>
+                <span style={{ fontSize: "10pt", color: "#333" }}>
+                  August 2013
+                </span>
               </div>
 
-              {/* Second Education Entry */}
-              <div>
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-bold text-gray-900">XYZ University</h3>
-                  <span className="text-gray-600 text-sm">August 2011</span>
-                </div>
-                <div className="text-gray-700">
-                  <span className="italic">BS, Computer Science</span>
-                  <span className="ml-4 text-gray-600">City, Country</span>
-                </div>
-                <ul className="list-disc list-inside text-gray-700 space-y-1 ml-4 mt-2">
-                  <li>Bullet point #1.</li>
-                  <li>Bullet point #2.</li>
-                  <li>Bullet point #3.</li>
-                </ul>
+              <div
+                style={{
+                  fontSize: "11pt",
+                  fontStyle: "italic",
+                  marginBottom: "4px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>MS, Computer Science</span>
+                <span style={{ color: "#333" }}>Goodwell, Motherland</span>
               </div>
+
+              <ul
+                style={{
+                  marginLeft: "16px",
+                  fontSize: "11pt",
+                }}
+              >
+                <li style={{ marginBottom: "1px" }}>
+                  Developed a user-friendly web application for travel planning,
+                  allowing users to create and manage their itineraries.
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Utilized Redux for state management, enabling efficient data
+                  flow and improved application performance.
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Designed RESTful APIs using Node.js and Express.js,
+                  facilitating data retrieval and storage from the PostgreSQL
+                  database.
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Implemented JWT-based authentication to ensure secure user
+                  registration and login processes.
+                </li>
+              </ul>
             </div>
-          )}
+
+            {/* Education 2 */}
+            <div style={{ marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: "2px",
+                }}
+              >
+                <strong style={{ fontSize: "11pt" }}>XYZ University</strong>
+                <span style={{ fontSize: "10pt", color: "#333" }}>
+                  August 2011
+                </span>
+              </div>
+
+              <div
+                style={{
+                  fontSize: "11pt",
+                  fontStyle: "italic",
+                  marginBottom: "4px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>BS, Computer Science</span>
+                <span style={{ color: "#333" }}>City, Country</span>
+              </div>
+
+              <ul
+                style={{
+                  marginLeft: "16px",
+                  fontSize: "11pt",
+                }}
+              >
+                <li style={{ marginBottom: "1px" }}>Bullet point #1.</li>
+                <li style={{ marginBottom: "1px" }}>Bullet point #2.</li>
+                <li style={{ marginBottom: "1px" }}>Bullet point #3.</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Experience Section */}
+          <div style={{ marginBottom: "16px" }}>
+            <h2
+              style={{
+                fontSize: "12pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}
+            >
+              EXPERIENCE
+            </h2>
+
+            {/* Experience 1 */}
+            <div style={{ marginBottom: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  marginBottom: "2px",
+                }}
+              >
+                <strong style={{ fontSize: "11pt" }}>
+                  {experience?.company_name || "Tech Company Inc."}
+                </strong>
+                <span style={{ fontSize: "10pt", color: "#333" }}>
+                  {experience?.start_date || "Jan 2022"} -{" "}
+                  {experience?.end_date || "Present"}
+                </span>
+              </div>
+
+              <div
+                style={{
+                  fontSize: "11pt",
+                  fontStyle: "italic",
+                  marginBottom: "4px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>{experience?.job_title || "Software Developer"}</span>
+                <span style={{ color: "#333" }}>
+                  {experience?.location || "City, Country"}
+                </span>
+              </div>
+
+              <ul
+                style={{
+                  marginLeft: "16px",
+                  fontSize: "11pt",
+                }}
+              >
+                <li style={{ marginBottom: "1px" }}>
+                  Developed and maintained web applications using React and
+                  Node.js
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Collaborated with cross-functional teams to deliver
+                  high-quality software solutions
+                </li>
+                <li style={{ marginBottom: "1px" }}>
+                  Improved application performance by 30% through code
+                  optimization
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 

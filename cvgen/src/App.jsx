@@ -16,9 +16,11 @@ import "./App.css";
 function App() {
   const [profileData, setProfileData] = useState({ name: "", email: "" });
   const [eduData, setEduData] = useState([]);
+  const [links, setLinks] = useState([]);
+  const [experience, setExperience] = useState([]);
 
   return (
-    <cvContext.Provider value={{profileData, setProfileData, eduData, setEduData}}>
+    <cvContext.Provider value={{profileData, setProfileData, eduData, setEduData, links, setLinks, experience, setExperience}}>
       <div className="app-container">
         <Header />
         <div className="main-content">

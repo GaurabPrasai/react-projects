@@ -1,7 +1,21 @@
 import { Button } from "./button";
 import { Plus } from "lucide-react";
+import { useContext } from "react";
+import cvContext from "../../context/cvcontext";
 
 const Experience = () => {
+
+  const {experience, setExperience} = useContext(cvContext);
+
+  const handleInputChange = (field) => (e) => {
+    const value = e.target.value;
+    const updateData = {
+      ...experience,
+      [field]: value
+    };
+    setExperience(updateData);
+  };
+
   return (
     <div className="p-10">
       {/* First Experience Entry */}
@@ -23,6 +37,9 @@ const Experience = () => {
               JOB TITLE
             </label>
             <input
+              value={experience.job_title || ""}
+              onChange={handleInputChange('job_title')}
+              name="job_title"
               type="text"
               placeholder="Senior Software Engineer"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -33,6 +50,9 @@ const Experience = () => {
               COMPANY NAME
             </label>
             <input
+              value={experience.company_name || ""}
+              onChange={handleInputChange('company_name')}
+              name="company_name"
               type="text"
               placeholder="Google Inc."
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -60,6 +80,9 @@ const Experience = () => {
               DEPARTMENT
             </label>
             <input
+              value={experience.dpt || ""}
+              onChange={handleInputChange('dpt')}
+              name="dpt"
               type="text"
               placeholder="Engineering"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -74,6 +97,9 @@ const Experience = () => {
               START DATE
             </label>
             <input
+              value={experience.start_date || ""}
+              onChange={handleInputChange('start_date')}
+              name="start_date"
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -83,6 +109,9 @@ const Experience = () => {
               END DATE
             </label>
             <input
+              value={experience.end_date || ""}
+              onChange={handleInputChange('end_date')}
+              name="end_date"
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -95,6 +124,9 @@ const Experience = () => {
             LOCATION
           </label>
           <input
+            value={experience.location || ""}
+            onChange={handleInputChange('location')}
+            name="location"
             type="text"
             placeholder="Mountain View, CA, USA"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -116,6 +148,9 @@ const Experience = () => {
         {/* Currently Working Here Checkbox */}
         <div className="flex items-center mb-6">
           <input
+            value={experience.checkbox || ""}
+            onChange={handleInputChange('checkbox')}
+            name="checkbox"
             type="checkbox"
             id="currently-working"
             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
