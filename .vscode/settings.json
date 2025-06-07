@@ -1,0 +1,7 @@
+{
+    "git.allowNoVerifyCommit": true,
+    "git.autofetch": false,
+    "git.postCommitCommand": "none",
+    "gitdoc.enabled": true,
+    "gitdoc.autoPushDelay": 10000
+}
