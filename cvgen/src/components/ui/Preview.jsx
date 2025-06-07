@@ -81,9 +81,9 @@ const Preview = () => {
               }}
             >
               <span>📧 {profileData.email || "johndoe@protonmail.com"}</span>
-              <span>🌐 {links.website_text || "johndoe.com"}</span>
-              <span>💼 {links.linkedin_text || "john-doe-123"}</span>
-              <span>🐙 {links.github_text || "johndoe"}</span>
+              <a href={links.website_url}><span>🌐 {links.website_text || "johndoe.com"}</span></a>
+              <a href={links.linkedin_url}><span>💼 {links.linkedin_text || "john-doe-123"}</span></a>
+              <a href={links.github_url}><span>🐙 {links.github_text || "johndoe"}</span></a>
             </div>
           </div>
 
