@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button } from "./button";
 import { Download, Printer } from "lucide-react";
-import cvContext from "../../context/cvcontext";
+import cvContext from "../../context/cvcontext.js";
 
 const Preview = () => {
   const { profileData, eduData, links, experience } = useContext(cvContext);
