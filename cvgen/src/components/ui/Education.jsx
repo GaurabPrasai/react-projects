@@ -1,17 +1,16 @@
 import { useContext } from "react";
 import { Button } from "./button";
 import { Plus } from "lucide-react";
-import cvContext from "../../context/cvcontext.js";
+import cvContext from "../../context/CvContext.js";
 
 const Education = () => {
-
-  const {eduData, setEduData} = useContext(cvContext);
+  const { eduData, setEduData } = useContext(cvContext);
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
     const updateData = {
       ...eduData,
-      [field]: value
+      [field]: value,
     };
     setEduData(updateData);
   };
@@ -36,7 +35,7 @@ const Education = () => {
             </label>
             <input
               value={eduData.university || ""}
-              onChange={handleInputChange('university')}
+              onChange={handleInputChange("university")}
               type="text"
               name="university"
               placeholder="Harvard University"
@@ -49,7 +48,7 @@ const Education = () => {
             </label>
             <input
               value={eduData.degree || ""}
-              onChange={handleInputChange('degree')}
+              onChange={handleInputChange("degree")}
               type="text"
               name="degree"
               placeholder="Master of Computer Science"
@@ -66,7 +65,7 @@ const Education = () => {
             </label>
             <input
               value={eduData.month || ""}
-              onChange={handleInputChange('month')}
+              onChange={handleInputChange("month")}
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -77,7 +76,7 @@ const Education = () => {
             </label>
             <input
               value={eduData.enddate || ""}
-              onChange={handleInputChange('enddate')}
+              onChange={handleInputChange("enddate")}
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
@@ -91,7 +90,7 @@ const Education = () => {
           </label>
           <input
             value={eduData.location || ""}
-            onChange={handleInputChange('location')}
+            onChange={handleInputChange("location")}
             name="location"
             type="text"
             placeholder="Cambridge, MA, USA"

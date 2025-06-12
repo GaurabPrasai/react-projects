@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button } from "./button";
 import { Plus } from "lucide-react";
-import cvContext from "../../context/cvcontext.js";
+import cvContext from "../../context/CvContext.js";
 
 function Profile() {
   const { profileData, setProfileData } = useContext(cvContext);

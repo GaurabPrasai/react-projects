@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button } from "./button";
 import { Download, Printer } from "lucide-react";
-import cvContext from "../../context/cvcontext.js";
+import cvContext from "../../context/CvContext.js";
 
 const Preview = () => {
   const { profileData, eduData, links, experience } = useContext(cvContext);
@@ -81,9 +81,15 @@ const Preview = () => {
               }}
             >
               <span>📧 {profileData.email || "johndoe@protonmail.com"}</span>
-              <a href={links.website_url}><span>🌐 {links.website_text || "johndoe.com"}</span></a>
-              <a href={links.linkedin_url}><span>💼 {links.linkedin_text || "john-doe-123"}</span></a>
-              <a href={links.github_url}><span>🐙 {links.github_text || "johndoe"}</span></a>
+              <a href={links.website_url}>
+                <span>🌐 {links.website_text || "johndoe.com"}</span>
+              </a>
+              <a href={links.linkedin_url}>
+                <span>💼 {links.linkedin_text || "john-doe-123"}</span>
+              </a>
+              <a href={links.github_url}>
+                <span>🐙 {links.github_text || "johndoe"}</span>
+              </a>
             </div>
           </div>
 

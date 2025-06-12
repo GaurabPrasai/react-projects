@@ -1,17 +1,16 @@
 import { Button } from "./button";
 import { Plus } from "lucide-react";
 import { useContext } from "react";
-import cvContext from "../../context/cvcontext.js";
+import cvContext from "../../context/CvContext.js";
 
 const Experience = () => {
-
-  const {experience, setExperience} = useContext(cvContext);
+  const { experience, setExperience } = useContext(cvContext);
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
     const updateData = {
       ...experience,
-      [field]: value
+      [field]: value,
     };
     setExperience(updateData);
   };
@@ -22,9 +21,7 @@ const Experience = () => {
       <div className="mb-8">
         {/* Experience Header */}
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-medium text-gray-800">
-            Experience 1
-          </h3>
+          <h3 className="text-lg font-medium text-gray-800">Experience 1</h3>
           <button className="text-red-500 hover:text-red-700 text-sm font-medium">
             Remove
           </button>
@@ -38,7 +35,7 @@ const Experience = () => {
             </label>
             <input
               value={experience.job_title || ""}
-              onChange={handleInputChange('job_title')}
+              onChange={handleInputChange("job_title")}
               name="job_title"
               type="text"
               placeholder="Senior Software Engineer"
@@ -51,7 +48,7 @@ const Experience = () => {
             </label>
             <input
               value={experience.company_name || ""}
-              onChange={handleInputChange('company_name')}
+              onChange={handleInputChange("company_name")}
               name="company_name"
               type="text"
               placeholder="Google Inc."
@@ -81,7 +78,7 @@ const Experience = () => {
             </label>
             <input
               value={experience.dpt || ""}
-              onChange={handleInputChange('dpt')}
+              onChange={handleInputChange("dpt")}
               name="dpt"
               type="text"
               placeholder="Engineering"
@@ -98,7 +95,7 @@ const Experience = () => {
             </label>
             <input
               value={experience.start_date || ""}
-              onChange={handleInputChange('start_date')}
+              onChange={handleInputChange("start_date")}
               name="start_date"
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -110,7 +107,7 @@ const Experience = () => {
             </label>
             <input
               value={experience.end_date || ""}
-              onChange={handleInputChange('end_date')}
+              onChange={handleInputChange("end_date")}
               name="end_date"
               type="month"
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -125,7 +122,7 @@ const Experience = () => {
           </label>
           <input
             value={experience.location || ""}
-            onChange={handleInputChange('location')}
+            onChange={handleInputChange("location")}
             name="location"
             type="text"
             placeholder="Mountain View, CA, USA"
@@ -149,13 +146,16 @@ const Experience = () => {
         <div className="flex items-center mb-6">
           <input
             value={experience.checkbox || ""}
-            onChange={handleInputChange('checkbox')}
+            onChange={handleInputChange("checkbox")}
             name="checkbox"
             type="checkbox"
             id="currently-working"
             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
           />
-          <label htmlFor="currently-working" className="ml-2 text-sm text-gray-700">
+          <label
+            htmlFor="currently-working"
+            className="ml-2 text-sm text-gray-700"
+          >
             I currently work here
           </label>
         </div>

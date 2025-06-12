@@ -9,9 +9,8 @@ import Certifications from "./components/ui/Certifications";
 import Preview from "./components/ui/Preview";
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { useState } from "react";
-import cvContext from "./context/cvcontext.js";
+import cvContext from "./context/CvContext.js";
 import "./App.css";
-
 
 function App() {
   const [profileData, setProfileData] = useState({ name: "", email: "" });
@@ -20,16 +19,26 @@ function App() {
   const [experience, setExperience] = useState([]);
 
   return (
-    <cvContext.Provider value={{profileData, setProfileData, eduData, setEduData, links, setLinks, experience, setExperience}}>
+    <cvContext.Provider
+      value={{
+        profileData,
+        setProfileData,
+        eduData,
+        setEduData,
+        links,
+        setLinks,
+        experience,
+        setExperience,
+      }}
+    >
       <div className="app-container">
         <Header />
         <div className="main-content">
           <Sidebar />
           <Outlet />
         </div>
-      </div>      
+      </div>
     </cvContext.Provider>
-
   );
 }
 
