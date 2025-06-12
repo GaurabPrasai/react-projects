@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://gaurabprasai.github.io/cvgen/",
+  "homepage": "https://gaurabprasai.github.io/react-projects/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
