@@ -1,3 +1,6 @@
+import { Button } from "./button";
+import { Plus } from "lucide-react";
+
 const Skills = () => {
   return (
     <div className="p-10">
@@ -99,6 +102,16 @@ const Skills = () => {
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
+      </div>
+
+      <div className="mt-6">
+        <Button
+          variant="outline"
+          className="w-full h-12 border-2 border-dashed border-muted-foreground/30 hover:border-primary hover:bg-primary/5 transition-all duration-200"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add More
+        </Button>
       </div>
     </div>
   );

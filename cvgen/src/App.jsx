@@ -9,7 +9,7 @@ import Certifications from "./components/ui/Certifications";
 import Preview from "./components/ui/Preview";
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { useState } from "react";
-import cvContext from "./context/cvcontext";
+import cvContext from "./context/cvcontext.js";
 import "./App.css";
 
 

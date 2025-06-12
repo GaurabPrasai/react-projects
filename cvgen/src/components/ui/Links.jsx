@@ -1,15 +1,16 @@
 import { useContext } from "react";
+import { Button } from "./button";
+import { Plus } from "lucide-react";
 import cvContext from "../../context/cvcontext";
 
 const Links = () => {
-
-  const {links, setLinks} = useContext(cvContext);
+  const { links, setLinks } = useContext(cvContext);
 
   const handleInputChange = (field) => (e) => {
     const value = e.target.value;
     const updateData = {
       ...links,
-      [field]: value
+      [field]: value,
     };
     setLinks(updateData);
   };
@@ -30,7 +31,7 @@ const Links = () => {
             </label>
             <input
               value={links?.website_url || ""}
-              onChange={handleInputChange('website_url')}            
+              onChange={handleInputChange("website_url")}
               type="url"
               name="website_url"
               placeholder="https://www.johndoe.com"
@@ -43,7 +44,7 @@ const Links = () => {
             </label>
             <input
               value={links?.website_text || ""}
-              onChange={handleInputChange('website_text')}
+              onChange={handleInputChange("website_text")}
               type="text"
               name="website_text"
               placeholder="johndoe.com"
@@ -67,7 +68,7 @@ const Links = () => {
             </label>
             <input
               value={links?.linkedin_url || ""}
-              onChange={handleInputChange('linkedin_url')}
+              onChange={handleInputChange("linkedin_url")}
               type="url"
               name="linkedin_url"
               placeholder="https://www.linkedin.com/john-doe-123"
@@ -80,7 +81,7 @@ const Links = () => {
             </label>
             <input
               value={links?.linkedin_text || ""}
-              onChange={handleInputChange('linkedin_text')}
+              onChange={handleInputChange("linkedin_text")}
               type="text"
               name="linkedin_text"
               placeholder="john-doe-123"
@@ -104,7 +105,7 @@ const Links = () => {
             </label>
             <input
               value={links?.github_url || ""}
-              onChange={handleInputChange('github_url')}
+              onChange={handleInputChange("github_url")}
               type="url"
               name="github_url"
               placeholder="https://www.github.com/johndoe"
@@ -117,7 +118,7 @@ const Links = () => {
             </label>
             <input
               value={links?.github_text || ""}
-              onChange={handleInputChange('github_text')}
+              onChange={handleInputChange("github_text")}
               type="text"
               name="github_text"
               placeholder="johndoe"
@@ -141,7 +142,7 @@ const Links = () => {
             </label>
             <input
               value={links?.twitter_url || ""}
-              onChange={handleInputChange('twitter_url')}
+              onChange={handleInputChange("twitter_url")}
               type="url"
               name="twitter_url"
               placeholder="https://www.twitter.com/johndoe"
@@ -154,7 +155,7 @@ const Links = () => {
             </label>
             <input
               value={links?.twitter_text || ""}
-              onChange={handleInputChange('twitter_text')}
+              onChange={handleInputChange("twitter_text")}
               type="text"
               name="twitter_text"
               placeholder="@johndoe"
@@ -178,7 +179,7 @@ const Links = () => {
             </label>
             <input
               value={links?.portfolio_url || ""}
-              onChange={handleInputChange('portfolio_url')}
+              onChange={handleInputChange("portfolio_url")}
               type="url"
               name="portfolio_url"
               placeholder="https://www.portfolio.com/johndoe"
@@ -191,7 +192,7 @@ const Links = () => {
             </label>
             <input
               value={links?.portfolio_text || ""}
-              onChange={handleInputChange('portfolio_text')}
+              onChange={handleInputChange("portfolio_text")}
               type="text"
               name="portfolio_text"
               placeholder="My Portfolio"
@@ -215,7 +216,7 @@ const Links = () => {
             </label>
             <input
               value={links?.other_url || ""}
-              onChange={handleInputChange('other_url')}
+              onChange={handleInputChange("other_url")}
               type="url"
               name="other_url"
               placeholder="https://www.example.com"
@@ -228,7 +229,7 @@ const Links = () => {
             </label>
             <input
               value={links?.other_text || ""}
-              onChange={handleInputChange('other_text')}
+              onChange={handleInputChange("other_text")}
               type="text"
               name="other_text"
               placeholder="Custom Link"
@@ -236,6 +237,16 @@ const Links = () => {
             />
           </div>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <Button
+          variant="outline"
+          className="w-full h-12 border-2 border-dashed border-muted-foreground/30 hover:border-primary hover:bg-primary/5 transition-all duration-200"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add More
+        </Button>
       </div>
     </div>
   );

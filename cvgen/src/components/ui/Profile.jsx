@@ -1,4 +1,6 @@
 import { useContext } from "react";
+import { Button } from "./button";
+import { Plus } from "lucide-react";
 import cvContext from "../../context/cvcontext";
 
 function Profile() {
@@ -8,7 +10,7 @@ function Profile() {
     const value = e.target.value;
     const updateData = {
       ...profileData,
-      [field]: value
+      [field]: value,
     };
     setProfileData(updateData);
   };
@@ -23,7 +25,7 @@ function Profile() {
           </label>
           <input
             value={profileData.name || ""}
-            onChange={handleInputChange('name')}
+            onChange={handleInputChange("name")}
             type="text"
             name="fullName"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -35,7 +37,7 @@ function Profile() {
           </label>
           <input
             value={profileData.profession || ""}
-            onChange={handleInputChange('profession')}
+            onChange={handleInputChange("profession")}
             type="text"
             name="profession"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -51,7 +53,7 @@ function Profile() {
           </label>
           <input
             value={profileData.email || ""}
-            onChange={handleInputChange('email')}
+            onChange={handleInputChange("email")}
             type="email"
             name="email"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -63,7 +65,7 @@ function Profile() {
           </label>
           <input
             value={profileData.phone || ""}
-            onChange={handleInputChange('phone')}
+            onChange={handleInputChange("phone")}
             type="tel"
             name="phone"
             className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -78,7 +80,7 @@ function Profile() {
         </label>
         <input
           value={profileData.address || ""}
-          onChange={handleInputChange('address')}        
+          onChange={handleInputChange("address")}
           type="address"
           name="address"
           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -92,11 +94,21 @@ function Profile() {
         </label>
         <textarea
           value={profileData.summary || ""}
-          onChange={handleInputChange('summary')}
+          onChange={handleInputChange("summary")}
           name="summary"
           rows={5}
           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
+      </div>
+
+      <div className="mt-6">
+        <Button
+          variant="outline"
+          className="w-full h-12 border-2 border-dashed border-muted-foreground/30 hover:border-primary hover:bg-primary/5 transition-all duration-200"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Add More
+        </Button>
       </div>
     </div>
   );
