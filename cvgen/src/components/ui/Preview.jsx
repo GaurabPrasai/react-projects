@@ -4,7 +4,8 @@ import { Download, Printer } from "lucide-react";
 import cvContext from "../../context/CvContext.js";
 
 const Preview = () => {
-  const { profileData, eduData, links, experience } = useContext(cvContext);
+  const { profileData, eduData, links, experience, skills, certifications } =
+    useContext(cvContext);
 
   const handlePrint = () => {
     window.print();
@@ -16,27 +17,29 @@ const Preview = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-100 p-8">
       {/* Header Controls */}
-      <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center">
+      <div className="max-w-4xl mx-auto mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-xl font-semibold text-gray-800 mb-2">
             Resume Preview
           </h1>
-          <p className="text-gray-600">Review your resume before downloading</p>
+          <p className="text-sm text-gray-500">
+            Review your resume before downloading
+          </p>
         </div>
         <div className="flex gap-3">
           <Button
             onClick={handlePrint}
             variant="outline"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 text-sm py-2 px-4 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
           >
             <Printer className="w-4 h-4" />
             Print
           </Button>
           <Button
             onClick={handleDownload}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700"
+            className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm py-2 px-4 rounded-md shadow-sm transition-colors"
           >
             <Download className="w-4 h-4" />
             Download PDF
@@ -45,7 +48,7 @@ const Preview = () => {
       </div>
 
       {/* CV Preview Container */}
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden border border-gray-100">
         <div
           className="cv-content p-16"
           style={{
@@ -117,17 +120,22 @@ const Preview = () => {
             </h2>
 
             <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-              <div style={{ marginBottom: "2px" }}>
-                <strong>Languages:</strong> JavaScript, Go, HTML, CSS
-              </div>
-              <div style={{ marginBottom: "2px" }}>
-                <strong>Frameworks, Libraries & Databases:</strong> React,
-                Redux, NestJS, PostgreSQL, CockroachDB
-              </div>
-              <div style={{ marginBottom: "2px" }}>
-                <strong>Tools & Other Technologies:</strong> Git, SVN, AWS,
-                Postman
-              </div>
+              {skills?.technical?.languages && (
+                <div style={{ marginBottom: "2px" }}>
+                  <strong>Languages:</strong> {skills.technical.languages}
+                </div>
+              )}
+              {skills?.technical?.frameworks && (
+                <div style={{ marginBottom: "2px" }}>
+                  <strong>Frameworks & Tools:</strong>{" "}
+                  {skills.technical.frameworks}
+                </div>
+              )}
+              {skills?.technical?.databases && (
+                <div style={{ marginBottom: "2px" }}>
+                  <strong>Databases:</strong> {skills.technical.databases}
+                </div>
+              )}
             </div>
           </div>
 
@@ -266,7 +274,7 @@ const Preview = () => {
             </div>
           </div>
 
-          {/* Certificates, Skills & Interests */}
+          {/* Soft Skills & Languages */}
           <div style={{ marginBottom: "16px" }}>
             <h2
               style={{
@@ -277,23 +285,93 @@ const Preview = () => {
                 letterSpacing: "0.5px",
               }}
             >
-              CERTIFICATES, SKILLS & INTERESTS
+              SOFT SKILLS & LANGUAGES
             </h2>
 
             <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-              <div style={{ marginBottom: "2px" }}>
-                <strong>Certificates:</strong> cs50x00
-              </div>
-              <div style={{ marginBottom: "2px" }}>
-                <strong>Skills:</strong> Strategic Planning, Problem Solving,
-                Leadership, Teamwork, etc
-              </div>
-              <div style={{ marginBottom: "2px" }}>
-                <strong>Interests:</strong> Reading, sleeping, yoga, fishing,
-                traveling, Reddit, Bear, Football
-              </div>
+              {skills?.soft?.communication && (
+                <div style={{ marginBottom: "2px" }}>
+                  <strong>Communication & Leadership:</strong>{" "}
+                  {skills.soft.communication}
+                </div>
+              )}
+              {skills?.soft?.problemSolving && (
+                <div style={{ marginBottom: "2px" }}>
+                  <strong>Problem Solving & Collaboration:</strong>{" "}
+                  {skills.soft.problemSolving}
+                </div>
+              )}
+              {skills?.languages?.spoken && (
+                <div style={{ marginBottom: "2px" }}>
+                  <strong>Languages:</strong> {skills.languages.spoken}
+                </div>
+              )}
             </div>
           </div>
+
+          {/* Certifications */}
+          {Array.isArray(certifications) && certifications.length > 0 && (
+            <div style={{ marginBottom: "16px" }}>
+              <h2
+                style={{
+                  fontSize: "12pt",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}
+              >
+                CERTIFICATIONS
+              </h2>
+
+              <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
+                {certifications.map(
+                  (cert, index) =>
+                    cert.name && (
+                      <div
+                        key={cert.id || index}
+                        style={{ marginBottom: "6px" }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <strong>{cert.name}</strong>
+                          {cert.date && <span>{cert.date}</span>}
+                        </div>
+                        {cert.issuer && (
+                          <div style={{ fontStyle: "italic" }}>
+                            {cert.issuer}
+                          </div>
+                        )}
+                        {cert.credentialId && (
+                          <div style={{ fontSize: "10pt" }}>
+                            <strong>Credential ID:</strong> {cert.credentialId}
+                            {cert.url && (
+                              <span>
+                                {" "}
+                                •{" "}
+                                <a
+                                  href={cert.url}
+                                  style={{
+                                    color: "#0066cc",
+                                    textDecoration: "underline",
+                                  }}
+                                >
+                                  Verify
+                                </a>
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Education Section */}
           <div style={{ marginBottom: "16px" }}>

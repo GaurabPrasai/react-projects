@@ -17,6 +17,8 @@ function App() {
   const [eduData, setEduData] = useState([]);
   const [links, setLinks] = useState([]);
   const [experience, setExperience] = useState([]);
+  const [certifications, setCertifications] = useState([]);
+
 
   return (
     <cvContext.Provider
@@ -29,6 +31,8 @@ function App() {
         setLinks,
         experience,
         setExperience,
+        certifications,
+        setCertifications,
       }}
     >
       <div className="app-container">
