@@ -1,0 +1,39 @@
+<svg width="185" height="50" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text-make {
+      font-family: Arial, sans-serif;
+      font-size: 26px;
+      fill: black; /* Changed text color to black */
+      font-weight: bold;
+      dominant-baseline: middle;
+      text-anchor: start;
+    }
+    .text-cv {
+      font-family: Arial, sans-serif;
+      font-size: 22px;
+      fill: black; /* Changed text color to black */
+      font-weight: bold;
+      dominant-baseline: middle;
+      text-anchor: start;
+    }
+    .highlight-box {
+      fill: #D9534F; 
+      rx: 6px;
+      ry: 6px;
+    }
+    .highlight-text-my {
+      font-family: Arial, sans-serif;
+      font-size: 24px;
+      fill: white;
+      font-weight: bold;
+      font-style: normal;
+      dominant-baseline: middle;
+      text-anchor: middle;
+    }
+  </style>
+  <!-- Removed black background rectangle -->
+  <text x="8" y="25" class="text-make">make</text>
+  <rect x="78" y="8" width="44" height="34" class="highlight-box" />
+  <text x="100" y="25" class="highlight-text-my">my</text>
+  <text x="125" y="25" class="text-cv">CV</text>
+</svg>
