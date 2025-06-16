@@ -17,7 +17,8 @@ function App() {
   const [eduData, setEduData] = useState([]);
   const [links, setLinks] = useState([]);
   const [experience, setExperience] = useState([]);
-  const [certifications, setCertifications] = useState([]);
+  const [skillsData, setSkillsData] = useState([]);
+  const [certificationsData, setCertificationsData] = useState([]);
 
 
   return (
@@ -31,8 +32,10 @@ function App() {
         setLinks,
         experience,
         setExperience,
-        certifications,
-        setCertifications,
+        skillsData,
+        setSkillsData,
+        certificationsData,
+        setCertificationsData,
       }}
     >
       <div className="app-container">

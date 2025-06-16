@@ -165,6 +165,9 @@ const Experience = () => {
               Job Description
             </label>
             <textarea
+              value={experience.job_description || ""}
+              onChange={handleInputChange("job_description")}
+              name="job_description"
               rows={5}
               placeholder="Describe your role, responsibilities, and key achievements. Include specific projects, technologies used, and measurable results..."
               className="w-full px-4 py-3 bg-white border border-gray-200/80 rounded-xl text-gray-900 text-base placeholder:text-gray-400 resize-none transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 hover:border-gray-300 leading-relaxed"

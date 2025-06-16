@@ -16,6 +16,19 @@ const Preview = () => {
     alert("Download functionality would be implemented here");
   };
 
+  // Function to convert job description text to bullet points
+  const formatJobDescription = (text) => {
+    if (!text) return [];
+
+    // Split by periods, semicolons, or line breaks and filter out empty strings
+    const points = text
+      .split(/[.;]\s*|\n/)
+      .map((point) => point.trim())
+      .filter((point) => point.length > 0);
+
+    return points;
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       {/* Header Controls */}
@@ -540,18 +553,26 @@ const Preview = () => {
                   fontSize: "11pt",
                 }}
               >
-                <li style={{ marginBottom: "1px" }}>
-                  Developed and maintained web applications using React and
-                  Node.js
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Collaborated with cross-functional teams to deliver
-                  high-quality software solutions
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Improved application performance by 30% through code
-                  optimization
-                </li>
+                {experience?.job_description ? (
+                  formatJobDescription(experience.job_description).map(
+                    (point, index) => (
+                      <li key={index} style={{ marginBottom: "1px" }}>
+                        {point}
+                      </li>
+                    )
+                  )
+                ) : (
+                  <>
+                    <li style={{ marginBottom: "1px" }}>
+                      Collaborated with cross-functional teams to deliver
+                      high-quality software solutions
+                    </li>
+                    <li style={{ marginBottom: "1px" }}>
+                      Improved application performance by 30% through code
+                      optimization
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
