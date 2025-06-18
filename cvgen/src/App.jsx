@@ -18,7 +18,7 @@ function App() {
   const [links, setLinks] = useState([]);
   const [experience, setExperience] = useState([]);
   const [skillsData, setSkillsData] = useState([]);
-  const [certData, setCertData] = useState([]);
+  const [certificationsData, setCertificationsData] = useState([]);
 
 
   return (
@@ -34,8 +34,8 @@ function App() {
         setExperience,
         skillsData,
         setSkillsData,
-        certData,
-        setCertData,
+        certificationsData,
+        setCertificationsData,
       }}
     >
       <div className="app-container">
