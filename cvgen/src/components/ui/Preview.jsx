@@ -4,7 +4,7 @@ import { Download, Printer } from "lucide-react";
 import cvContext from "../../context/CvContext.js";
 
 const Preview = () => {
-  const { profileData, eduData, links, experience, skills, certifications } =
+  const { profileData, eduData, links, experience, skillsData, certificationsData } =
     useContext(cvContext);
 
   const handlePrint = () => {
@@ -81,7 +81,7 @@ const Preview = () => {
                 letterSpacing: "0.5px",
               }}
             >
-              {profileData.name || "John Doe"}
+              {profileData?.name || "John Doe"}
             </h1>
 
             {/* Contact Info - Single Line */}
@@ -96,15 +96,15 @@ const Preview = () => {
                 marginBottom: "4px",
               }}
             >
-              <span>📧 {profileData.email || "johndoe@protonmail.com"}</span>
-              <a href={links.website_url}>
-                <span>🌐 {links.website_text || "johndoe.com"}</span>
+              <span>📧 {profileData?.email || "johndoe@protonmail.com"}</span>
+              <a href={links?.website_url}>
+                <span>🌐 {links?.website_text || "johndoe.com"}</span>
               </a>
-              <a href={links.linkedin_url}>
-                <span>💼 {links.linkedin_text || "john-doe-123"}</span>
+              <a href={links?.linkedin_url}>
+                <span>💼 {links?.linkedin_text || "john-doe-123"}</span>
               </a>
-              <a href={links.github_url}>
-                <span>🐙 {links.github_text || "johndoe"}</span>
+              <a href={links?.github_url}>
+                <span>🐙 {links?.github_text || "johndoe"}</span>
               </a>
             </div>
           </div>
@@ -133,20 +133,20 @@ const Preview = () => {
             </h2>
 
             <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-              {skills?.technical?.languages && (
+              {skillsData?.technical?.languages && (
                 <div style={{ marginBottom: "2px" }}>
-                  <strong>Languages:</strong> {skills.technical.languages}
+                  <strong>Languages:</strong> {skillsData.technical.languages}
                 </div>
               )}
-              {skills?.technical?.frameworks && (
+              {skillsData?.technical?.frameworks && (
                 <div style={{ marginBottom: "2px" }}>
                   <strong>Frameworks & Tools:</strong>{" "}
-                  {skills.technical.frameworks}
+                  {skillsData.technical.frameworks}
                 </div>
               )}
-              {skills?.technical?.databases && (
+              {skillsData?.technical?.databases && (
                 <div style={{ marginBottom: "2px" }}>
-                  <strong>Databases:</strong> {skills.technical.databases}
+                  <strong>Databases:</strong> {skillsData.technical.databases}
                 </div>
               )}
             </div>
@@ -302,28 +302,28 @@ const Preview = () => {
             </h2>
 
             <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-              {skills?.soft?.communication && (
+              {skillsData?.soft?.communication && (
                 <div style={{ marginBottom: "2px" }}>
                   <strong>Communication & Leadership:</strong>{" "}
-                  {skills.soft.communication}
+                  {skillsData.soft.communication}
                 </div>
               )}
-              {skills?.soft?.problemSolving && (
+              {skillsData?.soft?.problemSolving && (
                 <div style={{ marginBottom: "2px" }}>
                   <strong>Problem Solving & Collaboration:</strong>{" "}
-                  {skills.soft.problemSolving}
+                  {skillsData.soft.problemSolving}
                 </div>
               )}
-              {skills?.languages?.spoken && (
+              {skillsData?.languages?.spoken && (
                 <div style={{ marginBottom: "2px" }}>
-                  <strong>Languages:</strong> {skills.languages.spoken}
+                  <strong>Languages:</strong> {skillsData.languages.spoken}
                 </div>
               )}
             </div>
           </div>
 
           {/* Certifications */}
-          {Array.isArray(certifications) && certifications.length > 0 && (
+          {Array.isArray(certificationsData) && certificationsData.length > 0 && (
             <div style={{ marginBottom: "16px" }}>
               <h2
                 style={{
@@ -338,50 +338,44 @@ const Preview = () => {
               </h2>
 
               <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-                {certifications.map(
-                  (cert, index) =>
-                    cert.name && (
+                {certificationsData
+                  .filter(cert => cert.name) // Only show certifications with names
+                  .map((cert, index) => (
+                    <div key={index} style={{ marginBottom: "6px" }}>
                       <div
-                        key={cert.id || index}
-                        style={{ marginBottom: "6px" }}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <strong>{cert.name}</strong>
-                          {cert.date && <span>{cert.date}</span>}
-                        </div>
-                        {cert.issuer && (
-                          <div style={{ fontStyle: "italic" }}>
-                            {cert.issuer}
-                          </div>
-                        )}
-                        {cert.credentialId && (
-                          <div style={{ fontSize: "10pt" }}>
-                            <strong>Credential ID:</strong> {cert.credentialId}
-                            {cert.url && (
-                              <span>
-                                {" "}
-                                •{" "}
-                                <a
-                                  href={cert.url}
-                                  style={{
-                                    color: "#0066cc",
-                                    textDecoration: "underline",
-                                  }}
-                                >
-                                  Verify
-                                </a>
-                              </span>
-                            )}
-                          </div>
-                        )}
+                        <strong>{cert.name}</strong>
+                        {cert.issueDate && <span>{cert.issueDate}</span>}
                       </div>
-                    )
-                )}
+                      {cert.organization && (
+                        <div style={{ fontStyle: "italic" }}>
+                          {cert.organization}
+                        </div>
+                      )}
+                      {cert.url && (
+                        <div style={{ fontSize: "10pt" }}>
+                          <a
+                            href={cert.url}
+                            style={{
+                              color: "#0066cc",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            View Certificate
+                          </a>
+                          {cert.expiryDate && (
+                            <span style={{ marginLeft: "10px" }}>
+                              • Expires: {cert.expiryDate}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
               </div>
             </div>
           )}
@@ -411,7 +405,7 @@ const Preview = () => {
                 }}
               >
                 <strong style={{ fontSize: "11pt" }}>
-                  {eduData.university || "Pistachio Institute of Technology"}
+                  {eduData?.university || "Pistachio Institute of Technology"}
                 </strong>
                 <span style={{ fontSize: "10pt", color: "#333" }}>
                   August 2013

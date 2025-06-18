@@ -8,16 +8,37 @@ const Certifications = () => {
 
   const handleInputChange = (index, field) => (e) => {
     const value = e.target.value;
-    const updatedCertifications = [...(certificationsData || [])];
-    if (!updatedCertifications[index]) {
-      updatedCertifications[index] = {};
+    
+    // Create a new array with proper cloning, handle undefined case
+    const currentData = certificationsData || [];
+    const updatedCertifications = currentData.length > 0 
+      ? currentData.map(cert => ({ ...cert })) 
+      : [];
+    
+    // Ensure we have enough slots
+    while (updatedCertifications.length <= index) {
+      updatedCertifications.push({});
     }
-    updatedCertifications[index][field] = value;
+    
+    // Update the specific field
+    updatedCertifications[index] = {
+      ...updatedCertifications[index],
+      [field]: value
+    };
+    
     setCertificationsData(updatedCertifications);
   };
 
-  // Initialize with 4 certification slots if not present
-  const certifications = certificationsData || Array(4).fill({});
+  const addMoreCertification = () => {
+    const currentData = certificationsData || [];
+    const updatedCertifications = [...currentData, {}];
+    setCertificationsData(updatedCertifications);
+  };
+
+  // Initialize with 4 empty certification objects if array is empty or undefined
+  const certifications = (certificationsData && certificationsData.length > 0) 
+    ? certificationsData 
+    : Array.from({ length: 4 }, () => ({}));
 
   return (
     <div className="px-8 py-12 max-w-5xl mx-auto">
@@ -127,6 +148,7 @@ const Certifications = () => {
         {/* Add More Button */}
         <div className="mt-8">
           <Button
+            onClick={addMoreCertification}
             variant="outline"
             className="w-full h-12 text-sm border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 rounded-xl font-medium text-gray-600 hover:text-blue-600 group"
           >
