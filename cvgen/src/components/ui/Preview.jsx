@@ -4,29 +4,398 @@ import { Download, Printer } from "lucide-react";
 import cvContext from "../../context/CvContext.js";
 
 const Preview = () => {
-  const { profileData, eduData, links, experience, skillsData, certificationsData } =
-    useContext(cvContext);
+  const contextData = useContext(cvContext);
 
   const handlePrint = () => {
     window.print();
   };
 
   const handleDownload = () => {
-    // This would typically generate and download a PDF
     alert("Download functionality would be implemented here");
   };
 
-  // Function to convert job description text to bullet points
+  // Utility functions
+  const formatDate = (monthString) => {
+    if (!monthString) return '';
+    const [year, month] = monthString.split('-');
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${monthNames[parseInt(month)-1]} ${year}`;
+  };
+
   const formatJobDescription = (text) => {
     if (!text) return [];
-
-    // Split by periods, semicolons, or line breaks and filter out empty strings
-    const points = text
+    return text
       .split(/[.;]\s*|\n/)
-      .map((point) => point.trim())
-      .filter((point) => point.length > 0);
+      .map(point => point.trim())
+      .filter(point => point.length > 0);
+  };
 
-    return points;
+  const renderArraySection = (data, renderItem) => {
+    if (!Array.isArray(data)) return null;
+    return data
+      .filter(item => item && Object.keys(item).some(key => item[key]))
+      .map(renderItem);
+  };
+
+  const renderObjectSection = (data, renderItem) => {
+    if (!data || typeof data !== 'object') return null;
+    return renderItem(data);
+  };
+
+  // Section renderers
+  const renderHeader = () => (
+    <div className="text-center mb-4">
+      <h1 style={{
+        fontSize: "20pt",
+        fontWeight: "bold",
+        marginBottom: "8px",
+        letterSpacing: "0.5px",
+      }}>
+        {contextData.profileData?.name || "Your Name"}
+      </h1>
+
+      <div style={{
+        fontSize: "10pt",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "20px",
+        flexWrap: "wrap",
+        marginBottom: "4px",
+      }}>
+        {contextData.profileData?.email && (
+          <span>📧 {contextData.profileData.email}</span>
+        )}
+        {contextData.links?.website_url && (
+          <a href={contextData.links.website_url}>
+            <span>🌐 {contextData.links.website_text || contextData.links.website_url}</span>
+          </a>
+        )}
+        {contextData.links?.linkedin_url && (
+          <a href={contextData.links.linkedin_url}>
+            <span>💼 {contextData.links.linkedin_text || "LinkedIn"}</span>
+          </a>
+        )}
+        {contextData.links?.github_url && (
+          <a href={contextData.links.github_url}>
+            <span>🐙 {contextData.links.github_text || "GitHub"}</span>
+          </a>
+        )}
+        {contextData.profileData?.phone && (
+          <span>📱 {contextData.profileData.phone}</span>
+        )}
+        {contextData.profileData?.address && (
+          <span>📍 {contextData.profileData.address}</span>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderSkills = () => {
+    if (!contextData.skillsData) return null;
+    
+    const hasSkills = Object.values(contextData.skillsData).some(category => 
+      category && Object.values(category).some(skill => skill)
+    );
+    
+    if (!hasSkills) return null;
+
+    return (
+      <div style={{ marginBottom: "16px" }}>
+        <h2 style={{
+          fontSize: "12pt",
+          fontWeight: "bold",
+          marginBottom: "8px",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px",
+        }}>
+          SKILLS
+        </h2>
+
+        <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
+          {Object.entries(contextData.skillsData).map(([category, skills]) => (
+            <div key={category}>
+              {Object.entries(skills || {}).map(([skillType, skillValue]) => (
+                skillValue && (
+                  <div key={skillType} style={{ marginBottom: "2px" }}>
+                    <strong>{skillType.charAt(0).toUpperCase() + skillType.slice(1)}:</strong> {skillValue}
+                  </div>
+                )
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderProjects = () => {
+    if (!contextData.projectsData) return null;
+    
+    return renderArraySection(contextData.projectsData, (project, index) => (
+      <div key={index} style={{ marginBottom: "12px" }}>
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+          marginBottom: "4px",
+        }}>
+          <strong style={{ fontSize: "11pt" }}>{project.name || `Project ${index + 1}`}</strong>
+          <span style={{
+            fontSize: "10pt",
+            fontStyle: "italic",
+            color: "#333",
+          }}>
+            {project.technologies || project.techStack || ""}
+          </span>
+        </div>
+
+        {project.description && (
+          <ul style={{
+            marginLeft: "16px",
+            marginBottom: "6px",
+            fontSize: "11pt",
+          }}>
+            {formatJobDescription(project.description).map((point, idx) => (
+              <li key={idx} style={{ marginBottom: "1px" }}>{point}</li>
+            ))}
+          </ul>
+        )}
+
+        {(project.codeUrl || project.liveUrl) && (
+          <div style={{ fontSize: "10pt", marginLeft: "0px" }}>
+            {project.codeUrl && (
+              <>
+                <strong>Code:</strong>{" "}
+                <a href={project.codeUrl} style={{ color: "#0066cc", textDecoration: "underline" }}>
+                  Repository
+                </a>
+              </>
+            )}
+            {project.liveUrl && (
+              <>
+                <span style={{ margin: "0 8px" }}>Demo:</span>
+                <a href={project.liveUrl} style={{ color: "#0066cc", textDecoration: "underline" }}>
+                  Live Preview
+                </a>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    ));
+  };
+
+  const renderCertifications = () => {
+    if (!contextData.certificationsData) return null;
+    
+    const validCerts = contextData.certificationsData.filter(cert => cert?.name);
+    if (validCerts.length === 0) return null;
+
+    return (
+      <div style={{ marginBottom: "16px" }}>
+        <h2 style={{
+          fontSize: "12pt",
+          fontWeight: "bold",
+          marginBottom: "8px",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px",
+        }}>
+          CERTIFICATIONS
+        </h2>
+
+        <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
+          {validCerts.map((cert, index) => (
+            <div key={index} style={{ marginBottom: "6px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <strong>{cert.name}</strong>
+                {cert.issueDate && <span>{formatDate(cert.issueDate)}</span>}
+              </div>
+              {cert.organization && (
+                <div style={{ fontStyle: "italic" }}>{cert.organization}</div>
+              )}
+              {cert.url && (
+                <div style={{ fontSize: "10pt" }}>
+                  <a href={cert.url} style={{ color: "#0066cc", textDecoration: "underline" }}>
+                    View Certificate
+                  </a>
+                  {cert.expiryDate && (
+                    <span style={{ marginLeft: "10px" }}>
+                      • Expires: {formatDate(cert.expiryDate)}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderEducation = () => {
+    const eduArray = Array.isArray(contextData.eduData) ? contextData.eduData : [contextData.eduData];
+    const validEducation = eduArray.filter(edu => edu && (edu.university || edu.degree));
+    
+    if (validEducation.length === 0) return null;
+
+    return (
+      <div style={{ marginBottom: "16px" }}>
+        <h2 style={{
+          fontSize: "12pt",
+          fontWeight: "bold",
+          marginBottom: "8px",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px",
+        }}>
+          EDUCATION
+        </h2>
+
+        {validEducation.map((edu, index) => (
+          <div key={index} style={{ marginBottom: "12px" }}>
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              marginBottom: "2px",
+            }}>
+              <strong style={{ fontSize: "11pt" }}>
+                {edu.university || "University Name"}
+              </strong>
+              <span style={{ fontSize: "10pt", color: "#333" }}>
+                {formatDate(edu.enddate || edu.month)}
+              </span>
+            </div>
+
+            <div style={{
+              fontSize: "11pt",
+              fontStyle: "italic",
+              marginBottom: "4px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}>
+              <span>{edu.degree || "Degree"}</span>
+              <span style={{ color: "#333" }}>{edu.location || ""}</span>
+            </div>
+
+            {edu.description && (
+              <ul style={{ marginLeft: "16px", fontSize: "11pt" }}>
+                {formatJobDescription(edu.description).map((point, idx) => (
+                  <li key={idx} style={{ marginBottom: "1px" }}>{point}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const renderExperience = () => {
+    const expArray = Array.isArray(contextData.experience) ? contextData.experience : [contextData.experience];
+    const validExperience = expArray.filter(exp => exp && (exp.company_name || exp.job_title));
+    
+    if (validExperience.length === 0) return null;
+
+    return (
+      <div style={{ marginBottom: "16px" }}>
+        <h2 style={{
+          fontSize: "12pt",
+          fontWeight: "bold",
+          marginBottom: "8px",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px",
+        }}>
+          EXPERIENCE
+        </h2>
+
+        {validExperience.map((exp, index) => (
+          <div key={index} style={{ marginBottom: "12px" }}>
+            <div style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              marginBottom: "2px",
+            }}>
+              <strong style={{ fontSize: "11pt" }}>
+                {exp.company_name || "Company Name"}
+              </strong>
+              <span style={{ fontSize: "10pt", color: "#333" }}>
+                {formatDate(exp.start_date)} - {exp.end_date ? formatDate(exp.end_date) : "Present"}
+              </span>
+            </div>
+
+            <div style={{
+              fontSize: "11pt",
+              fontStyle: "italic",
+              marginBottom: "4px",
+              display: "flex",
+              justifyContent: "space-between",
+            }}>
+              <span>{exp.job_title || "Job Title"}</span>
+              <span style={{ color: "#333" }}>{exp.location || ""}</span>
+            </div>
+
+            {exp.job_description && (
+              <ul style={{ marginLeft: "16px", fontSize: "11pt" }}>
+                {formatJobDescription(exp.job_description).map((point, idx) => (
+                  <li key={idx} style={{ marginBottom: "1px" }}>{point}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // Dynamic section renderer
+  const renderDynamicSections = () => {
+    const sections = [];
+    
+    // Add sections based on available data
+    if (contextData.skillsData) sections.push({ key: 'skills', component: renderSkills() });
+    if (contextData.projectsData) sections.push({ key: 'projects', component: renderProjects() });
+    if (contextData.certificationsData) sections.push({ key: 'certifications', component: renderCertifications() });
+    if (contextData.eduData) sections.push({ key: 'education', component: renderEducation() });
+    if (contextData.experience) sections.push({ key: 'experience', component: renderExperience() });
+
+    // Add any additional sections from context
+    Object.entries(contextData).forEach(([key, value]) => {
+      if (!['profileData', 'links', 'skillsData', 'projectsData', 'certificationsData', 'eduData', 'experience'].includes(key)) {
+        if (Array.isArray(value) && value.length > 0) {
+          sections.push({
+            key,
+            component: (
+              <div key={key} style={{ marginBottom: "16px" }}>
+                <h2 style={{
+                  fontSize: "12pt",
+                  fontWeight: "bold",
+                  marginBottom: "8px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.5px",
+                }}>
+                  {key.replace(/([A-Z])/g, ' $1').toUpperCase()}
+                </h2>
+                {/* Generic renderer for unknown sections */}
+                <div style={{ fontSize: "11pt" }}>
+                  {value.map((item, index) => (
+                    <div key={index} style={{ marginBottom: "8px" }}>
+                      {Object.entries(item).map(([field, val]) => (
+                        val && <div key={field}><strong>{field}:</strong> {val}</div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          });
+        }
+      }
+    });
+
+    return sections.map(section => section.component).filter(Boolean);
   };
 
   return (
@@ -34,26 +403,15 @@ const Preview = () => {
       {/* Header Controls */}
       <div className="max-w-4xl mx-auto mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-xl font-semibold text-gray-800 mb-2">
-            Resume Preview
-          </h1>
-          <p className="text-sm text-gray-500">
-            Review your resume before downloading
-          </p>
+          <h1 className="text-xl font-semibold text-gray-800 mb-2">Resume Preview</h1>
+          <p className="text-sm text-gray-500">Review your resume before downloading</p>
         </div>
         <div className="flex gap-3">
-          <Button
-            onClick={handlePrint}
-            variant="outline"
-            className="flex items-center gap-2 text-sm py-2 px-4 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
-          >
+          <Button onClick={handlePrint} variant="outline" className="flex items-center gap-2 text-sm py-2 px-4 border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors">
             <Printer className="w-4 h-4" />
             Print
           </Button>
-          <Button
-            onClick={handleDownload}
-            className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm py-2 px-4 rounded-md shadow-sm transition-colors"
-          >
+          <Button onClick={handleDownload} className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white text-sm py-2 px-4 rounded-md shadow-sm transition-colors">
             <Download className="w-4 h-4" />
             Download PDF
           </Button>
@@ -62,514 +420,42 @@ const Preview = () => {
 
       {/* CV Preview Container */}
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg overflow-hidden border border-gray-100">
-        <div
-          className="cv-content p-16"
-          style={{
-            fontFamily: 'Times, "Times New Roman", serif',
-            fontSize: "11pt",
-            lineHeight: "1.4",
-            color: "#000",
-          }}
-        >
+        <div className="cv-content p-16" style={{
+          fontFamily: 'Times, "Times New Roman", serif',
+          fontSize: "11pt",
+          lineHeight: "1.4",
+          color: "#000",
+        }}>
           {/* Header Section */}
-          <div className="text-center mb-4">
-            <h1
-              style={{
-                fontSize: "20pt",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                letterSpacing: "0.5px",
-              }}
-            >
-              {profileData?.name || "John Doe"}
-            </h1>
-
-            {/* Contact Info - Single Line */}
-            <div
-              style={{
-                fontSize: "10pt",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "20px",
-                flexWrap: "wrap",
-                marginBottom: "4px",
-              }}
-            >
-              <span>📧 {profileData?.email || "johndoe@protonmail.com"}</span>
-              <a href={links?.website_url}>
-                <span>🌐 {links?.website_text || "johndoe.com"}</span>
-              </a>
-              <a href={links?.linkedin_url}>
-                <span>💼 {links?.linkedin_text || "john-doe-123"}</span>
-              </a>
-              <a href={links?.github_url}>
-                <span>🐙 {links?.github_text || "johndoe"}</span>
-              </a>
-            </div>
-          </div>
+          {renderHeader()}
 
           {/* Horizontal Line */}
-          <hr
-            style={{
-              border: "none",
-              borderTop: "1px solid #000",
-              margin: "16px 0",
-            }}
-          />
+          <hr style={{
+            border: "none",
+            borderTop: "1px solid #000",
+            margin: "16px 0",
+          }} />
 
-          {/* Technical Skills */}
-          <div style={{ marginBottom: "16px" }}>
-            <h2
-              style={{
-                fontSize: "12pt",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-              }}
-            >
-              TECHNICAL SKILLS
-            </h2>
+          {/* Dynamic Sections */}
+          {renderDynamicSections()}
 
-            <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-              {skillsData?.technical?.languages && (
-                <div style={{ marginBottom: "2px" }}>
-                  <strong>Languages:</strong> {skillsData.technical.languages}
-                </div>
-              )}
-              {skillsData?.technical?.frameworks && (
-                <div style={{ marginBottom: "2px" }}>
-                  <strong>Frameworks & Tools:</strong>{" "}
-                  {skillsData.technical.frameworks}
-                </div>
-              )}
-              {skillsData?.technical?.databases && (
-                <div style={{ marginBottom: "2px" }}>
-                  <strong>Databases:</strong> {skillsData.technical.databases}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Projects Section */}
-          <div style={{ marginBottom: "16px" }}>
-            <h2
-              style={{
-                fontSize: "12pt",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-              }}
-            >
-              PROJECTS
-            </h2>
-
-            {/* Project 1 */}
-            <div style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: "4px",
-                }}
-              >
-                <strong style={{ fontSize: "11pt" }}>TravelPlanner</strong>
-                <span
-                  style={{
-                    fontSize: "10pt",
-                    fontStyle: "italic",
-                    color: "#333",
-                  }}
-                >
-                  HTML, CSS, React, TypeScript, Redux, Bootstrap, Express.js,
-                  PostgreSQL
-                </span>
-              </div>
-
-              <ul
-                style={{
-                  marginLeft: "16px",
-                  marginBottom: "6px",
-                  fontSize: "11pt",
-                }}
-              >
-                <li style={{ marginBottom: "1px" }}>
-                  Developed a user-friendly web application for travel planning,
-                  allowing users to create and manage their itineraries.
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Utilized Redux for state management, enabling efficient data
-                  flow and improved application performance.
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Designed RESTful APIs using Node.js and Express.js,
-                  facilitating data retrieval and storage from the PostgreSQL
-                  database.
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Implemented JWT-based authentication to ensure secure user
-                  registration and login processes.
-                </li>
-              </ul>
-
-              <div style={{ fontSize: "10pt", marginLeft: "0px" }}>
-                <strong>Code:</strong>{" "}
-                <a
-                  href="#"
-                  style={{ color: "#0066cc", textDecoration: "underline" }}
-                >
-                  Github Repo
-                </a>
-                <span style={{ margin: "0 8px" }}>Demo:</span>
-                <a
-                  href="#"
-                  style={{ color: "#0066cc", textDecoration: "underline" }}
-                >
-                  Live Preview
-                </a>
-              </div>
-            </div>
-
-            {/* Project 2 */}
-            <div style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: "4px",
-                }}
-              >
-                <strong style={{ fontSize: "11pt" }}>Project No. 2</strong>
-                <span
-                  style={{
-                    fontSize: "10pt",
-                    fontStyle: "italic",
-                    color: "#333",
-                  }}
-                >
-                  Example Tech Stack
-                </span>
-              </div>
-
-              <ul
-                style={{
-                  marginLeft: "16px",
-                  marginBottom: "6px",
-                  fontSize: "11pt",
-                }}
-              >
-                <li style={{ marginBottom: "1px" }}>Bullet point #1.</li>
-                <li style={{ marginBottom: "1px" }}>Bullet point #2.</li>
-                <li style={{ marginBottom: "1px" }}>Bullet point #3.</li>
-                <li style={{ marginBottom: "1px" }}>Bullet point #4.</li>
-              </ul>
-
-              <div style={{ fontSize: "10pt", marginLeft: "0px" }}>
-                <strong>Code:</strong>{" "}
-                <a
-                  href="#"
-                  style={{ color: "#0066cc", textDecoration: "underline" }}
-                >
-                  Codeberg Repo
-                </a>
-                <span style={{ margin: "0 8px" }}>Demo:</span>
-                <a
-                  href="#"
-                  style={{ color: "#0066cc", textDecoration: "underline" }}
-                >
-                  Live Preview
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Soft Skills & Languages */}
-          <div style={{ marginBottom: "16px" }}>
-            <h2
-              style={{
-                fontSize: "12pt",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-              }}
-            >
-              SOFT SKILLS & LANGUAGES
-            </h2>
-
-            <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-              {skillsData?.soft?.communication && (
-                <div style={{ marginBottom: "2px" }}>
-                  <strong>Communication & Leadership:</strong>{" "}
-                  {skillsData.soft.communication}
-                </div>
-              )}
-              {skillsData?.soft?.problemSolving && (
-                <div style={{ marginBottom: "2px" }}>
-                  <strong>Problem Solving & Collaboration:</strong>{" "}
-                  {skillsData.soft.problemSolving}
-                </div>
-              )}
-              {skillsData?.languages?.spoken && (
-                <div style={{ marginBottom: "2px" }}>
-                  <strong>Languages:</strong> {skillsData.languages.spoken}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Certifications */}
-          {Array.isArray(certificationsData) && certificationsData.length > 0 && (
+          {/* Professional Summary */}
+          {contextData.profileData?.summary && (
             <div style={{ marginBottom: "16px" }}>
-              <h2
-                style={{
-                  fontSize: "12pt",
-                  fontWeight: "bold",
-                  marginBottom: "8px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                }}
-              >
-                CERTIFICATIONS
+              <h2 style={{
+                fontSize: "12pt",
+                fontWeight: "bold",
+                marginBottom: "8px",
+                textTransform: "uppercase",
+                letterSpacing: "0.5px",
+              }}>
+                SUMMARY
               </h2>
-
-              <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-                {certificationsData
-                  .filter(cert => cert.name) // Only show certifications with names
-                  .map((cert, index) => (
-                    <div key={index} style={{ marginBottom: "6px" }}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <strong>{cert.name}</strong>
-                        {cert.issueDate && <span>{cert.issueDate}</span>}
-                      </div>
-                      {cert.organization && (
-                        <div style={{ fontStyle: "italic" }}>
-                          {cert.organization}
-                        </div>
-                      )}
-                      {cert.url && (
-                        <div style={{ fontSize: "10pt" }}>
-                          <a
-                            href={cert.url}
-                            style={{
-                              color: "#0066cc",
-                              textDecoration: "underline",
-                            }}
-                          >
-                            View Certificate
-                          </a>
-                          {cert.expiryDate && (
-                            <span style={{ marginLeft: "10px" }}>
-                              • Expires: {cert.expiryDate}
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-              </div>
+              <p style={{ fontSize: "11pt", lineHeight: "1.4" }}>
+                {contextData.profileData.summary}
+              </p>
             </div>
           )}
-
-          {/* Education Section */}
-          <div style={{ marginBottom: "16px" }}>
-            <h2
-              style={{
-                fontSize: "12pt",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-              }}
-            >
-              EDUCATION
-            </h2>
-
-            {/* Education 1 */}
-            <div style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: "2px",
-                }}
-              >
-                <strong style={{ fontSize: "11pt" }}>
-                  {eduData?.university || "Pistachio Institute of Technology"}
-                </strong>
-                <span style={{ fontSize: "10pt", color: "#333" }}>
-                  August 2013
-                </span>
-              </div>
-
-              <div
-                style={{
-                  fontSize: "11pt",
-                  fontStyle: "italic",
-                  marginBottom: "4px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>MS, Computer Science</span>
-                <span style={{ color: "#333" }}>Goodwell, Motherland</span>
-              </div>
-
-              <ul
-                style={{
-                  marginLeft: "16px",
-                  fontSize: "11pt",
-                }}
-              >
-                <li style={{ marginBottom: "1px" }}>
-                  Developed a user-friendly web application for travel planning,
-                  allowing users to create and manage their itineraries.
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Utilized Redux for state management, enabling efficient data
-                  flow and improved application performance.
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Designed RESTful APIs using Node.js and Express.js,
-                  facilitating data retrieval and storage from the PostgreSQL
-                  database.
-                </li>
-                <li style={{ marginBottom: "1px" }}>
-                  Implemented JWT-based authentication to ensure secure user
-                  registration and login processes.
-                </li>
-              </ul>
-            </div>
-
-            {/* Education 2 */}
-            <div style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: "2px",
-                }}
-              >
-                <strong style={{ fontSize: "11pt" }}>XYZ University</strong>
-                <span style={{ fontSize: "10pt", color: "#333" }}>
-                  August 2011
-                </span>
-              </div>
-
-              <div
-                style={{
-                  fontSize: "11pt",
-                  fontStyle: "italic",
-                  marginBottom: "4px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>BS, Computer Science</span>
-                <span style={{ color: "#333" }}>City, Country</span>
-              </div>
-
-              <ul
-                style={{
-                  marginLeft: "16px",
-                  fontSize: "11pt",
-                }}
-              >
-                <li style={{ marginBottom: "1px" }}>Bullet point #1.</li>
-                <li style={{ marginBottom: "1px" }}>Bullet point #2.</li>
-                <li style={{ marginBottom: "1px" }}>Bullet point #3.</li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Experience Section */}
-          <div style={{ marginBottom: "16px" }}>
-            <h2
-              style={{
-                fontSize: "12pt",
-                fontWeight: "bold",
-                marginBottom: "8px",
-                textTransform: "uppercase",
-                letterSpacing: "0.5px",
-              }}
-            >
-              EXPERIENCE
-            </h2>
-
-            {/* Experience 1 */}
-            <div style={{ marginBottom: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  marginBottom: "2px",
-                }}
-              >
-                <strong style={{ fontSize: "11pt" }}>
-                  {experience?.company_name || "Tech Company Inc."}
-                </strong>
-                <span style={{ fontSize: "10pt", color: "#333" }}>
-                  {experience?.start_date || "Jan 2022"} -{" "}
-                  {experience?.end_date || "Present"}
-                </span>
-              </div>
-
-              <div
-                style={{
-                  fontSize: "11pt",
-                  fontStyle: "italic",
-                  marginBottom: "4px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>{experience?.job_title || "Software Developer"}</span>
-                <span style={{ color: "#333" }}>
-                  {experience?.location || "City, Country"}
-                </span>
-              </div>
-
-              <ul
-                style={{
-                  marginLeft: "16px",
-                  fontSize: "11pt",
-                }}
-              >
-                {experience?.job_description ? (
-                  formatJobDescription(experience.job_description).map(
-                    (point, index) => (
-                      <li key={index} style={{ marginBottom: "1px" }}>
-                        {point}
-                      </li>
-                    )
-                  )
-                ) : (
-                  <>
-                    <li style={{ marginBottom: "1px" }}>
-                      Collaborated with cross-functional teams to deliver
-                      high-quality software solutions
-                    </li>
-                    <li style={{ marginBottom: "1px" }}>
-                      Improved application performance by 30% through code
-                      optimization
-                    </li>
-                  </>
-                )}
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
 
