@@ -92,43 +92,53 @@ const Preview = () => {
     </div>
   );
 
-  const renderSkills = () => {
-    if (!contextData.skillsData) return null;
-    
-    const hasSkills = Object.values(contextData.skillsData).some(category => 
-      category && Object.values(category).some(skill => skill)
-    );
-    
-    if (!hasSkills) return null;
+const renderSkills = () => {
+  if (!contextData.skillsData) return null;
+  
+  // Check if any skills data exists
+  const hasSkills = Object.values(contextData.skillsData).some(skill => 
+    skill && skill.trim() !== ""
+  );
+  
+  if (!hasSkills) return null;
 
-    return (
-      <div style={{ marginBottom: "16px" }}>
-        <h2 style={{
-          fontSize: "12pt",
-          fontWeight: "bold",
-          marginBottom: "8px",
-          textTransform: "uppercase",
-          letterSpacing: "0.5px",
-        }}>
-          SKILLS
-        </h2>
-
-        <div style={{ fontSize: "11pt", lineHeight: "1.3" }}>
-          {Object.entries(contextData.skillsData).map(([category, skills]) => (
-            <div key={category}>
-              {Object.entries(skills || {}).map(([skillType, skillValue]) => (
-                skillValue && (
-                  <div key={skillType} style={{ marginBottom: "2px" }}>
-                    <strong>{skillType.charAt(0).toUpperCase() + skillType.slice(1)}:</strong> {skillValue}
-                  </div>
-                )
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+  // Define skill categories and their display names
+  const skillCategories = {
+    programmingLanguages: "Programming Languages",
+    frameworksTools: "Frameworks & Tools", 
+    databases: "Databases & Storage",
+    communicationLeadership: "Communication & Leadership",
+    problemSolvingCollaboration: "Problem Solving & Collaboration",
+    languages: "Languages"
   };
+
+  return (
+    <div style={{ marginBottom: "16px" }}>
+      <h2 style={{
+        fontSize: "12pt",
+        fontWeight: "bold",
+        marginBottom: "8px",
+        textTransform: "uppercase",
+        letterSpacing: "0.5px",
+      }}>
+        SKILLS
+      </h2>
+
+      <div style={{ fontSize: "11pt", lineHeight: "1.4" }}>
+        {Object.entries(skillCategories).map(([key, displayName]) => {
+          const skillValue = contextData.skillsData[key];
+          if (!skillValue || skillValue.trim() === "") return null;
+          
+          return (
+            <div key={key} style={{ marginBottom: "4px" }}>
+              <strong>{displayName}:</strong> {skillValue}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
   const renderProjects = () => {
     if (!contextData.projectsData) return null;
