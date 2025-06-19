@@ -5,7 +5,7 @@ import cvContext from "../../context/CvContext.js";
 import "../styles/preview.css";
 
 const Preview = () => {
-  const contextData = useContext(cvContext);
+  const { profileData, eduData, links, experience, skillsData, certificationsData, projectsData } = useContext(cvContext);
 
   const handlePrint = () => {
     window.print();
@@ -36,42 +36,42 @@ const Preview = () => {
   const renderHeader = () => (
     <div className="cv-header">
       <h1 className="cv-header-name">
-        {contextData.profileData?.name || "Your Name"}
+        {profileData?.name || "Your Name"}
       </h1>
 
       <div className="cv-header-contact">
-        {contextData.profileData?.email && (
-          <span>📧 {contextData.profileData.email}</span>
+        {profileData?.email && (
+          <span>📧 {profileData.email}</span>
         )}
-        {contextData.links?.website_url && (
-          <a href={contextData.links.website_url}>
-            <span>🌐 {contextData.links.website_text || contextData.links.website_url}</span>
+        {links?.website_url && (
+          <a href={links.website_url}>
+            <span>🌐 {links.website_text || links.website_url}</span>
           </a>
         )}
-        {contextData.links?.linkedin_url && (
-          <a href={contextData.links.linkedin_url}>
-            <span>💼 {contextData.links.linkedin_text || "LinkedIn"}</span>
+        {links?.linkedin_url && (
+          <a href={links.linkedin_url}>
+            <span>💼 {links.linkedin_text || "LinkedIn"}</span>
           </a>
         )}
-        {contextData.links?.github_url && (
-          <a href={contextData.links.github_url}>
-            <span>🐙 {contextData.links.github_text || "GitHub"}</span>
+        {links?.github_url && (
+          <a href={links.github_url}>
+            <span>🐙 {links.github_text || "GitHub"}</span>
           </a>
         )}
-        {contextData.profileData?.phone && (
-          <span>📱 {contextData.profileData.phone}</span>
+        {profileData?.phone && (
+          <span>📱 {profileData.phone}</span>
         )}
-        {contextData.profileData?.address && (
-          <span>📍 {contextData.profileData.address}</span>
+        {profileData?.address && (
+          <span>📍 {profileData.address}</span>
         )}
       </div>
     </div>
   );
 
   const renderSkills = () => {
-    if (!contextData.skillsData) return null;
+    if (!skillsData) return null;
     
-    const hasSkills = Object.values(contextData.skillsData).some(skill => 
+    const hasSkills = Object.values(skillsData).some(skill => 
       skill && skill.trim() !== ""
     );
     
@@ -91,7 +91,7 @@ const Preview = () => {
         <h2 className="cv-section-title">SKILLS</h2>
         <div className="cv-section-content">
           {Object.entries(skillCategories).map(([key, displayName]) => {
-            const skillValue = contextData.skillsData[key];
+            const skillValue = skillsData[key];
             if (!skillValue || skillValue.trim() === "") return null;
             
             return (
@@ -106,9 +106,9 @@ const Preview = () => {
   };
 
   const renderProjects = () => {
-    if (!contextData.projectsData) return null;
+    if (!projectsData) return null;
     
-    const validProjects = contextData.projectsData.filter(project => 
+    const validProjects = projectsData.filter(project => 
       project && (project.name || project.description)
     );
     
@@ -161,9 +161,9 @@ const Preview = () => {
   };
 
   const renderCertifications = () => {
-    if (!contextData.certificationsData) return null;
+    if (!certificationsData) return null;
     
-    const validCerts = contextData.certificationsData.filter(cert => cert?.name);
+    const validCerts = certificationsData.filter(cert => cert?.name);
     if (validCerts.length === 0) return null;
 
     return (
@@ -197,7 +197,7 @@ const Preview = () => {
   };
 
   const renderEducation = () => {
-    const eduArray = Array.isArray(contextData.eduData) ? contextData.eduData : [contextData.eduData];
+    const eduArray = Array.isArray(eduData) ? eduData : [eduData];
     const validEducation = eduArray.filter(edu => edu && (edu.university || edu.degree));
     
     if (validEducation.length === 0) return null;
@@ -237,7 +237,7 @@ const Preview = () => {
   };
 
   const renderExperience = () => {
-    const expArray = Array.isArray(contextData.experience) ? contextData.experience : [contextData.experience];
+    const expArray = Array.isArray(experience) ? experience : [experience];
     const validExperience = expArray.filter(exp => exp && (exp.company_name || exp.job_title));
     
     if (validExperience.length === 0) return null;
@@ -277,13 +277,13 @@ const Preview = () => {
   };
 
   const renderSummary = () => {
-    if (!contextData.profileData?.summary) return null;
+    if (!profileData?.summary) return null;
 
     return (
       <div className="cv-section">
         <h2 className="cv-section-title">SUMMARY</h2>
         <div className="cv-section-content">
-          <p>{contextData.profileData.summary}</p>
+          <p>{profileData.summary}</p>
         </div>
       </div>
     );
