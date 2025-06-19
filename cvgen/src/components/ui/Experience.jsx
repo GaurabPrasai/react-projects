@@ -162,7 +162,7 @@ const Experience = () => {
           <div className="space-y-2">
             <label className="flex items-center text-sm font-medium text-gray-700 tracking-wide">
               <FileText className="w-4 h-4 mr-2 text-gray-500" />
-              Job Description
+              Job Description (make sure to write the job description in complete sentences and end each with a full stop for better formatting)
             </label>
             <textarea
               value={experience.job_description || ""}
